@@ -45,7 +45,6 @@ export function UserAuthForm({
   const _navigate = useNavigate()
   const { auth } = useAuthStore()
 
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,7 +103,6 @@ export function UserAuthForm({
         window.location.href = targetPath
       }, 100)
     } catch (error: unknown) {
-
       // Handle specific error messages from Vaya API
       if (error && typeof error === 'object' && 'response' in error) {
         const axiosError = error as {

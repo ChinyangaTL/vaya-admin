@@ -183,6 +183,11 @@ export const adminAPI = {
     return response.data
   },
 
+  getAllUsers: async () => {
+    const response = await apiClient.get('/admin/users')
+    return response.data
+  },
+
   // Wallet Management
   getPendingDeposits: async () => {
     const response = await apiClient.get('/api/wallet/admin/deposits/pending')

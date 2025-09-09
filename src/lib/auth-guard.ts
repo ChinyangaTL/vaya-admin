@@ -37,7 +37,6 @@ export function useAdminGuard() {
     auth.user.role === 'ADMIN' &&
     auth.user.is_active !== false
 
-
   return {
     isAdmin,
     user: auth.user,
