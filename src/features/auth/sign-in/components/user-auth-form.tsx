@@ -5,9 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
-import { IconFacebook, IconGithub } from '@/assets/brand-icons'
-import { useAuthStore } from '@/stores/auth-store'
-import { sleep, cn } from '@/lib/utils'
+import { useAuthStore, type VayaUser } from '@/stores/auth-store'
+import { authAPI } from '@/lib/api-client'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { ErrorDisplay } from '@/components/error-display'
 import { PasswordInput } from '@/components/password-input'
 
 const formSchema = z.object({
@@ -40,8 +41,10 @@ export function UserAuthForm({
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
+  const [error, setError] = useState<string | null>(null)
+  const _navigate = useNavigate()
   const { auth } = useAuthStore()
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,100 +54,164 @@ export function UserAuthForm({
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
+    auth.setLoading(true)
+    setError(null) // Clear any previous errors
 
-    // Mock successful authentication
-    const mockUser = {
-      accountNo: 'ACC001',
-      email: data.email,
-      role: ['user'],
-      exp: Date.now() + 24 * 60 * 60 * 1000, // 24 hours from now
-    }
+    try {
+      // Call Vaya API for authentication
+      const response = await authAPI.login(data.email, data.password)
 
-    toast.promise(sleep(2000), {
-      loading: 'Signing in...',
-      success: () => {
+      const { accessToken, user } = response
+
+      // Check if user has ADMIN role (required for admin dashboard)
+      if (user.role !== 'ADMIN') {
+        const errorMsg = `Access denied. You have ${user.role} role. Administrator role required for this dashboard.`
+        setError(errorMsg)
+        toast.error(errorMsg)
+        auth.setLoading(false)
         setIsLoading(false)
+        return
+      }
 
-        // Set user and access token
-        auth.setUser(mockUser)
-        auth.setAccessToken('mock-access-token')
+      // Set tokens and user in store (refresh token is handled via cookies)
+      // The user object from API already has the required fields
+      const completeUser: VayaUser = {
+        ...user,
+        // Set defaults for optional fields if not provided
+        phone: user.phone || '',
+        is_active: user.is_active ?? true,
+        created_at: user.created_at || new Date().toISOString(),
+        updated_at: user.updated_at || new Date().toISOString(),
+      }
 
-        // Redirect to the stored location or default to dashboard
-        const targetPath = redirectTo || '/'
-        navigate({ to: targetPath, replace: true })
+      auth.setAuthData(accessToken, completeUser)
 
-        return `Welcome back, ${data.email}!`
-      },
-      error: 'Error',
-    })
+      const displayName =
+        user.first_name && user.last_name
+          ? `${user.first_name} ${user.last_name}`
+          : user.email
+
+      toast.success(`Welcome back, ${displayName}!`)
+
+      // Wait a moment for auth state to be fully updated, then navigate
+      setTimeout(() => {
+        // Always go to the dashboard - ignore any redirect parameters for now
+        const targetPath = '/'
+
+        // Use window.location to avoid any router issues
+        window.location.href = targetPath
+      }, 100)
+    } catch (error: unknown) {
+
+      // Handle specific error messages from Vaya API
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as {
+          response?: {
+            status?: number
+            data?: {
+              message?: string
+              success?: boolean
+              error?: string
+            }
+          }
+        }
+
+        const status = axiosError.response?.status
+        const errorData = axiosError.response?.data
+
+        let errorMessage = 'Login failed. Please try again.'
+
+        if (status === 401) {
+          errorMessage =
+            'Invalid email or password. Please check your credentials.'
+        } else if (status === 403) {
+          errorMessage =
+            'Access denied. Administrator role required for this dashboard.'
+        } else if (status === 400) {
+          // Handle validation errors from Vaya API
+          errorMessage =
+            errorData?.message || 'Please check your input and try again.'
+        } else if (status === 500) {
+          errorMessage = 'Server error. Please try again later.'
+        } else if (errorData?.message) {
+          errorMessage = errorData.message
+        } else if (errorData?.error) {
+          errorMessage = errorData.error
+        }
+
+        setError(errorMessage)
+        toast.error(errorMessage)
+      } else {
+        const errorMessage =
+          'Network error. Please check your connection and try again.'
+        setError(errorMessage)
+        toast.error(errorMessage)
+      }
+    } finally {
+      auth.setLoading(false)
+      setIsLoading(false)
+    }
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn('grid gap-3', className)}
-        {...props}
-      >
-        <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder='name@example.com' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder='********' {...field} />
-              </FormControl>
-              <FormMessage />
-              <Link
-                to='/forgot-password'
-                className='text-muted-foreground absolute end-0 -top-0.5 text-sm font-medium hover:opacity-75'
-              >
-                Forgot password?
-              </Link>
-            </FormItem>
-          )}
-        />
-        <Button className='mt-2' disabled={isLoading}>
-          {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
-          Sign in
-        </Button>
-
-        <div className='relative my-2'>
-          <div className='absolute inset-0 flex items-center'>
-            <span className='w-full border-t' />
-          </div>
-          <div className='relative flex justify-center text-xs uppercase'>
-            <span className='bg-background text-muted-foreground px-2'>
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <div className='grid grid-cols-2 gap-2'>
-          <Button variant='outline' type='button' disabled={isLoading}>
-            <IconGithub className='h-4 w-4' /> GitHub
+    <>
+      <ErrorDisplay error={error} onDismiss={() => setError(null)} />
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={cn('grid gap-3', className)}
+          {...props}
+        >
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder='name@example.com' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem className='relative'>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput placeholder='********' {...field} />
+                </FormControl>
+                <FormMessage />
+                <Link
+                  to='/forgot-password'
+                  className='text-muted-foreground absolute end-0 -top-0.5 text-sm font-medium hover:opacity-75'
+                >
+                  Forgot password?
+                </Link>
+              </FormItem>
+            )}
+          />
+          <Button
+            className='mt-2'
+            disabled={isLoading || auth.isLoading}
+            type='submit'
+          >
+            {isLoading || auth.isLoading ? (
+              <Loader2 className='animate-spin' />
+            ) : (
+              <LogIn />
+            )}
+            {isLoading || auth.isLoading
+              ? 'Signing in...'
+              : 'Sign in to Vaya Admin'}
           </Button>
-          <Button variant='outline' type='button' disabled={isLoading}>
-            <IconFacebook className='h-4 w-4' /> Facebook
-          </Button>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </>
   )
 }

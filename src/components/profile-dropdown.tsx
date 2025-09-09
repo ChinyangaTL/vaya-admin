@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import useDialogState from '@/hooks/use-dialog-state'
+import { useAuthStore } from '@/stores/auth-store'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +17,12 @@ import { SignOutDialog } from '@/components/sign-out-dialog'
 
 export function ProfileDropdown() {
   const [open, setOpen] = useDialogState()
+  const { auth } = useAuthStore()
+  
+  const user = auth.user
+  const userInitials = user ? `${user.email[0].toUpperCase()}${user.email[1].toUpperCase()}` : 'VA'
+  const userName = user ? (user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.email) : 'Vaya Admin'
+  const userEmail = user?.email || 'admin@vaya-luyten.com'
 
   return (
     <>
@@ -23,18 +30,23 @@ export function ProfileDropdown() {
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
             <Avatar className='h-8 w-8'>
-              <AvatarImage src='/avatars/01.png' alt='@shadcn' />
-              <AvatarFallback>SN</AvatarFallback>
+              <AvatarImage src='/avatars/vaya-admin.jpg' alt='Vaya Admin' />
+              <AvatarFallback>{userInitials}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-56' align='end' forceMount>
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col gap-1.5'>
-              <p className='text-sm leading-none font-medium'>satnaing</p>
+              <p className='text-sm leading-none font-medium'>{userName}</p>
               <p className='text-muted-foreground text-xs leading-none'>
-                satnaingdev@gmail.com
+                {userEmail}
               </p>
+              {user && (
+                <p className='text-muted-foreground text-xs leading-none'>
+                  Role: {user.role}
+                </p>
+              )}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />

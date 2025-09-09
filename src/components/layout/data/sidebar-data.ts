@@ -27,30 +27,30 @@ import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
-    avatar: '/avatars/shadcn.jpg',
+    name: 'Vaya Admin',
+    email: 'admin@vaya-luyten.com',
+    avatar: '/avatars/vaya-admin.jpg',
   },
   teams: [
     {
-      name: 'Shadcn Admin',
+      name: 'Vaya Transportation',
       logo: Command,
-      plan: 'Vite + ShadcnUI',
+      plan: 'Admin Dashboard',
     },
     {
-      name: 'Acme Inc',
+      name: 'Vaya Fleet',
       logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
+      plan: 'Fleet Management',
     },
     {
-      name: 'Acme Corp.',
+      name: 'Vaya Analytics',
       logo: AudioWaveform,
-      plan: 'Startup',
+      plan: 'Analytics Hub',
     },
   ],
   navGroups: [
     {
-      title: 'General',
+      title: 'Management',
       items: [
         {
           title: 'Dashboard',
@@ -58,105 +58,44 @@ export const sidebarData: SidebarData = {
           icon: LayoutDashboard,
         },
         {
-          title: 'Tasks',
-          url: '/tasks',
-          icon: ListTodo,
+          title: 'Drivers',
+          url: '/drivers',
+          icon: Users,
         },
         {
-          title: 'Apps',
-          url: '/apps',
+          title: 'Routes',
+          url: '/routes',
           icon: Package,
-        },
-        {
-          title: 'Chats',
-          url: '/chats',
-          badge: '3',
-          icon: MessagesSquare,
         },
         {
           title: 'Users',
           url: '/users',
-          icon: Users,
+          icon: UserCog,
         },
         {
-          title: 'Secured by Clerk',
-          icon: ClerkLogo,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/clerk/sign-in',
-            },
-            {
-              title: 'Sign Up',
-              url: '/clerk/sign-up',
-            },
-            {
-              title: 'User Management',
-              url: '/clerk/user-management',
-            },
-          ],
+          title: 'Wallet',
+          url: '/wallet',
+          icon: ShieldCheck,
         },
       ],
     },
     {
-      title: 'Pages',
+      title: 'Operations',
       items: [
         {
-          title: 'Auth',
-          icon: ShieldCheck,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/sign-in',
-            },
-            {
-              title: 'Sign In (2 Col)',
-              url: '/sign-in-2',
-            },
-            {
-              title: 'Sign Up',
-              url: '/sign-up',
-            },
-            {
-              title: 'Forgot Password',
-              url: '/forgot-password',
-            },
-            {
-              title: 'OTP',
-              url: '/otp',
-            },
-          ],
+          title: 'Notifications',
+          url: '/notifications',
+          icon: Bell,
         },
         {
-          title: 'Errors',
-          icon: Bug,
-          items: [
-            {
-              title: 'Unauthorized',
-              url: '/errors/unauthorized',
-              icon: Lock,
-            },
-            {
-              title: 'Forbidden',
-              url: '/errors/forbidden',
-              icon: UserX,
-            },
-            {
-              title: 'Not Found',
-              url: '/errors/not-found',
-              icon: FileX,
-            },
-            {
-              title: 'Internal Server Error',
-              url: '/errors/internal-server-error',
-              icon: ServerOff,
-            },
-            {
-              title: 'Maintenance Error',
-              url: '/errors/maintenance-error',
-              icon: Construction,
-            },
-          ],
+          title: 'Analytics',
+          url: '/analytics',
+          icon: AudioWaveform,
+        },
+        {
+          title: 'System Monitor',
+          url: '/monitoring',
+          icon: Monitor,
         },
       ],
     },
