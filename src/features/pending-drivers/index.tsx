@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router'
+import { usePageTitle } from '@/hooks/use-page-title'
 import { ErrorDisplay } from '../../components/error-display'
 import { ProfileDropdown } from '../../components/profile-dropdown'
 import { Search } from '../../components/search'
@@ -11,6 +12,8 @@ import { usePendingDriversQuery } from './hooks/use-pending-drivers-query'
 const route = getRouteApi('/_authenticated/pending-drivers/')
 
 export function PendingDrivers() {
+  usePageTitle('Pending Drivers')
+
   const search = route.useSearch()
   const navigate = route.useNavigate()
   const { data, isLoading, error } = usePendingDriversQuery()

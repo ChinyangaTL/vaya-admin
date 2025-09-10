@@ -4,6 +4,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { usePageTitle } from '@/hooks/use-page-title'
 import { DriversDialogs } from './components/drivers-dialogs'
 import { DriversPrimaryButtons } from './components/drivers-primary-buttons'
 import { DriversProvider } from './components/drivers-provider'
@@ -13,6 +14,8 @@ import { useAllDriversQuery } from './hooks/use-drivers-query'
 const route = getRouteApi('/_authenticated/drivers/')
 
 export function Drivers() {
+  usePageTitle('Drivers')
+  
   const search = route.useSearch()
   const navigate = route.useNavigate()
   const { data: drivers = [], isLoading, error } = useAllDriversQuery()

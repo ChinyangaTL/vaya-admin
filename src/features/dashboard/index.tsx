@@ -14,10 +14,13 @@ import { TopNav } from '@/components/layout/top-nav'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { usePageTitle } from '@/hooks/use-page-title'
 import { Overview } from './components/overview'
 import { RecentSales } from './components/recent-sales'
 
 export function Dashboard() {
+  usePageTitle('Dashboard')
+  
   return (
     <>
       {/* ===== Top Heading ===== */}
