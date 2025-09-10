@@ -86,12 +86,8 @@ apiClient.interceptors.response.use(
 export const authAPI = {
   // Test API connectivity
   healthCheck: async () => {
-    try {
-      const response = await apiClient.get('/health')
-      return response.data
-    } catch (error) {
-      throw error
-    }
+    const response = await apiClient.get('/health')
+    return response.data
   },
 
   login: async (email: string, password: string) => {
@@ -123,14 +119,20 @@ export const adminAPI = {
   // Driver Management
   getPendingDrivers: async () => {
     const response = await apiClient.get('/admin/drivers/pending')
-    return response.data
+    return response.data.payload
   },
 
-  approveDriver: async (driverProfileId: string) => {
+  getAllDrivers: async () => {
+    const response = await apiClient.get('/admin/drivers')
+    return response.data.payload
+  },
+
+  approveDriver: async (driverProfileId: string, adminNotes?: string) => {
     const response = await apiClient.put(
-      `/admin/drivers/${driverProfileId}/approve`
+      `/admin/drivers/${driverProfileId}/approve`,
+      { adminNotes }
     )
-    return response.data
+    return response.data.payload
   },
 
   rejectDriver: async (driverProfileId: string, reason: string) => {
@@ -138,28 +140,34 @@ export const adminAPI = {
       `/admin/drivers/${driverProfileId}/reject`,
       { reason }
     )
-    return response.data
+    return response.data.payload
   },
 
   getDriverPerformance: async (driverId: string) => {
     const response = await apiClient.get(
       `/api/trips/performance/driver/${driverId}`
     )
-    return response.data
+    return response.data.payload
   },
 
   getDriverEarnings: async (driverId: string) => {
     const response = await apiClient.get(
       `/api/trips/earnings/driver/${driverId}`
     )
-    return response.data
+    return response.data.payload
   },
 
   getDriverAnalytics: async (driverId: string, period: string) => {
     const response = await apiClient.get(
       `/api/trips/analytics/driver/${driverId}/period/${period}`
     )
-    return response.data
+    return response.data.payload
+  },
+
+  // Document Management
+  getDocumentUrl: async (documentId: string) => {
+    const response = await apiClient.get(`/drivers/documents/${documentId}/url`)
+    return response.data.payload.signedUrl
   },
 
   // Route Management

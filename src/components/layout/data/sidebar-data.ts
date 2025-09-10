@@ -63,6 +63,11 @@ export const sidebarData: SidebarData = {
           icon: Users,
         },
         {
+          title: 'Pending Drivers',
+          url: '/pending-drivers',
+          icon: UserX,
+        },
+        {
           title: 'Routes',
           url: '/routes',
           icon: Package,
