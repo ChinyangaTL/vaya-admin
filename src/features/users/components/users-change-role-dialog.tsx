@@ -34,9 +34,7 @@ import { roles } from '../data/data'
 import { useUsers } from './users-provider'
 
 const changeRoleSchema = z.object({
-  role: z.enum(['RIDER', 'DRIVER', 'FLEET_MANAGER', 'ADMIN'], {
-    required_error: 'Please select a role',
-  }),
+  role: z.enum(['RIDER', 'DRIVER', 'FLEET_MANAGER', 'ADMIN']),
   reason: z.string().min(10, 'Please provide a reason (minimum 10 characters)'),
 })
 

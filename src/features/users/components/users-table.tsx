@@ -109,8 +109,8 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
             columnId: 'is_active',
             title: 'Status',
             options: [
-              { label: 'Active', value: true },
-              { label: 'Inactive', value: false },
+              { label: 'Active', value: 'true' },
+              { label: 'Inactive', value: 'false' },
             ],
           },
           {

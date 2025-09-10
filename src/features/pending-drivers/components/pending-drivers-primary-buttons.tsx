@@ -5,7 +5,7 @@ import { usePendingDriversQuery } from '../hooks/use-pending-drivers-query'
 import { usePendingDrivers } from './pending-drivers-provider'
 
 export function PendingDriversPrimaryButtons() {
-  const { data, refetch, isFetching } = usePendingDriversQuery()
+  const { refetch, isFetching } = usePendingDriversQuery()
   const { setOpen } = usePendingDrivers()
 
   const handleRefresh = () => {
