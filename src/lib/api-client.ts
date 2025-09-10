@@ -197,51 +197,60 @@ export const adminAPI = {
   },
 
   // Wallet Management
-  getPendingDeposits: async () => {
-    const response = await apiClient.get('/api/wallet/admin/deposits/pending')
-    return response.data
-  },
-
-  approveDeposit: async (depositId: string) => {
-    const response = await apiClient.put(
-      `/api/wallet/admin/deposits/${depositId}/approve`
-    )
-    return response.data
-  },
-
-  rejectDeposit: async (depositId: string, notes: string) => {
-    const response = await apiClient.put(
-      `/api/wallet/admin/deposits/${depositId}/reject`,
-      { notes }
-    )
-    return response.data
-  },
-
-  getPendingWithdrawals: async () => {
+  getPendingDeposits: async (limit = 50, offset = 0) => {
     const response = await apiClient.get(
-      '/api/wallet/admin/withdrawals/pending'
+      `/wallet/admin/deposits/pending?limit=${limit}&offset=${offset}`
     )
-    return response.data
+    return response.data.data
   },
 
-  approveWithdrawal: async (withdrawalId: string) => {
+  approveDeposit: async (depositId: string, adminNotes?: string) => {
     const response = await apiClient.put(
-      `/api/wallet/admin/withdrawals/${withdrawalId}/approve`
+      `/wallet/admin/deposits/${depositId}/approve`,
+      { adminNotes }
     )
-    return response.data
+    return response.data.data
   },
 
-  rejectWithdrawal: async (withdrawalId: string, notes: string) => {
+  rejectDeposit: async (depositId: string, adminNotes: string) => {
     const response = await apiClient.put(
-      `/api/wallet/admin/withdrawals/${withdrawalId}/reject`,
-      { notes }
+      `/wallet/admin/deposits/${depositId}/reject`,
+      { adminNotes }
     )
-    return response.data
+    return response.data.data
+  },
+
+  getPendingWithdrawals: async (limit = 50, offset = 0) => {
+    const response = await apiClient.get(
+      `/wallet/admin/withdrawals/pending?limit=${limit}&offset=${offset}`
+    )
+    return response.data.data
+  },
+
+  approveWithdrawal: async (withdrawalId: string, adminNotes?: string) => {
+    const response = await apiClient.put(
+      `/wallet/admin/withdrawals/${withdrawalId}/approve`,
+      { adminNotes }
+    )
+    return response.data.data
+  },
+
+  rejectWithdrawal: async (withdrawalId: string, adminNotes: string) => {
+    const response = await apiClient.put(
+      `/wallet/admin/withdrawals/${withdrawalId}/reject`,
+      { adminNotes }
+    )
+    return response.data.data
+  },
+
+  getDepositProofUrl: async (depositId: string) => {
+    const response = await apiClient.get(`/wallet/deposits/${depositId}/proof`)
+    return response.data.data.proofUrl
   },
 
   debugTransactions: async () => {
-    const response = await apiClient.get('/api/wallet/debug/transactions')
-    return response.data
+    const response = await apiClient.get('/wallet/debug/transactions')
+    return response.data.data
   },
 
   // Notification Management
