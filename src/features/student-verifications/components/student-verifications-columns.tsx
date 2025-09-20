@@ -1,14 +1,12 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { LongText } from '@/components/long-text'
-import { approvalStatuses } from '../data/data'
-import { type PendingDriverProfile } from '../data/schema'
+import { type StudentVerification } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const pendingDriversColumns: ColumnDef<PendingDriverProfile>[] = [
+export const studentVerificationsColumns: ColumnDef<StudentVerification>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,15 +32,13 @@ export const pendingDriversColumns: ColumnDef<PendingDriverProfile>[] = [
     enableHiding: false,
   },
   {
-    id: 'user.email',
-    accessorKey: 'user.email',
+    id: 'email',
+    accessorKey: 'email',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Email' />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36 ps-3'>
-        {row.getValue('user.email')}
-      </LongText>
+      <LongText className='max-w-36 ps-3'>{row.getValue('email')}</LongText>
     ),
     meta: {
       className: cn(
@@ -53,75 +49,65 @@ export const pendingDriversColumns: ColumnDef<PendingDriverProfile>[] = [
     enableHiding: false,
   },
   {
-    id: 'driverName',
+    id: 'phone',
+    accessorKey: 'phone',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Driver Name' />
+      <DataTableColumnHeader column={column} title='Phone' />
     ),
-    cell: ({ row }) => {
-      const { firstName, lastName } = row.original
-      const fullName =
-        firstName && lastName ? `${firstName} ${lastName}` : 'N/A'
-      return <LongText className='max-w-36'>{fullName}</LongText>
-    },
-    meta: { className: 'w-36' },
+    cell: ({ row }) => (
+      <LongText className='max-w-32'>{row.getValue('phone')}</LongText>
+    ),
+    meta: { className: 'w-32' },
   },
   {
-    id: 'licensePlate',
-    accessorKey: 'licensePlate',
+    id: 'student_id',
+    accessorKey: 'student_id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='License Plate' />
+      <DataTableColumnHeader column={column} title='Student ID' />
     ),
     cell: ({ row }) => (
       <div className='w-fit text-nowrap'>
-        {row.getValue('licensePlate') || 'N/A'}
+        {row.getValue('student_id') || 'N/A'}
       </div>
     ),
   },
   {
-    id: 'route',
-    accessorKey: 'route',
+    id: 'university_name',
+    accessorKey: 'university_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Route' />
+      <DataTableColumnHeader column={column} title='University' />
     ),
-    cell: ({ row }) => <div>{row.getValue('route') || 'N/A'}</div>,
+    cell: ({ row }) => (
+      <div className='max-w-40 truncate'>
+        {row.getValue('university_name') || 'N/A'}
+      </div>
+    ),
     enableSorting: false,
   },
   {
-    id: 'approval_status',
-    accessorKey: 'approval_status',
+    id: 'verification_submitted_at',
+    accessorKey: 'verification_submitted_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title='Submitted' />
     ),
     cell: ({ row }) => {
-      const status = row.getValue('approval_status') as string
-      const statusConfig = approvalStatuses.find((s) => s.value === status)
+      const dateValue = row.getValue('verification_submitted_at')
+      if (!dateValue)
+        return (
+          <div className='text-muted-foreground text-sm'>Not submitted</div>
+        )
 
-      if (!statusConfig) {
-        return <span className='text-sm'>{status}</span>
-      }
-
-      return (
-        <div className='flex items-center gap-x-2'>
-          <Badge
-            variant='outline'
-            className={cn('capitalize', statusConfig.color)}
-          >
-            {statusConfig.label}
-          </Badge>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      const date =
+        dateValue instanceof Date ? dateValue : new Date(dateValue as string)
+      return <div className='text-sm'>{date.toLocaleDateString()}</div>
     },
     enableHiding: false,
-    enableSorting: false,
   },
   {
     id: 'created_at',
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Applied' />
+      <DataTableColumnHeader column={column} title='Registered' />
     ),
     cell: ({ row }) => {
       const dateValue = row.getValue('created_at')
@@ -137,6 +123,3 @@ export const pendingDriversColumns: ColumnDef<PendingDriverProfile>[] = [
     enableHiding: false,
   },
 ]
-
-
-

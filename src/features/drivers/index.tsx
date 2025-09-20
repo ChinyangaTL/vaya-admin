@@ -1,10 +1,10 @@
 import { getRouteApi } from '@tanstack/react-router'
+import { usePageTitle } from '@/hooks/use-page-title'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { usePageTitle } from '@/hooks/use-page-title'
 import { DriversDialogs } from './components/drivers-dialogs'
 import { DriversPrimaryButtons } from './components/drivers-primary-buttons'
 import { DriversProvider } from './components/drivers-provider'
@@ -15,7 +15,7 @@ const route = getRouteApi('/_authenticated/drivers/')
 
 export function Drivers() {
   usePageTitle('Drivers')
-  
+
   const search = route.useSearch()
   const navigate = route.useNavigate()
   const { data: drivers = [], isLoading, error } = useAllDriversQuery()

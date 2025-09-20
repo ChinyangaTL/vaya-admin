@@ -143,6 +143,62 @@ export const adminAPI = {
     return response.data.payload
   },
 
+  // Student Verification Management
+  getPendingStudentVerifications: async () => {
+    const response = await apiClient.get('/admin/students/pending')
+    return response.data.payload
+  },
+
+  approveStudentVerification: async (userId: string, adminNotes?: string) => {
+    const response = await apiClient.put(`/admin/students/${userId}/approve`, {
+      adminNotes,
+    })
+    return response.data.payload
+  },
+
+  rejectStudentVerification: async (
+    userId: string,
+    rejectionReason: string,
+    adminNotes?: string
+  ) => {
+    const response = await apiClient.put(`/admin/students/${userId}/reject`, {
+      rejectionReason,
+      adminNotes,
+    })
+    return response.data.payload
+  },
+
+  // Dashboard Statistics
+  getDashboardStats: async () => {
+    const response = await apiClient.get('/dashboard/stats')
+    return response.data.payload
+  },
+
+  getRealtimeActivity: async () => {
+    const response = await apiClient.get('/dashboard/realtime')
+    return response.data.payload
+  },
+
+  // Platform Wallet Management
+  getPlatformWalletSummary: async () => {
+    const response = await apiClient.get('/platform-wallet/summary')
+    return response.data.payload
+  },
+
+  getPlatformTransactions: async (limit = 50, offset = 0) => {
+    const response = await apiClient.get(
+      `/platform-wallet/transactions?limit=${limit}&offset=${offset}`
+    )
+    return response.data.payload
+  },
+
+  getPlatformTransactionById: async (transactionId: string) => {
+    const response = await apiClient.get(
+      `/platform-wallet/transactions/${transactionId}`
+    )
+    return response.data.payload
+  },
+
   getDriverPerformance: async (driverId: string) => {
     const response = await apiClient.get(
       `/api/trips/performance/driver/${driverId}`

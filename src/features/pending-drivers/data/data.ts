@@ -75,3 +75,6 @@ export const documentTypes: Array<{
     color: 'text-gray-600',
   },
 ]
+
+
+

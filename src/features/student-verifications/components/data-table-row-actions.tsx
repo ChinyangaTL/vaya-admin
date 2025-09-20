@@ -9,16 +9,16 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { type PendingDriverProfile } from '../data/schema'
-import { usePendingDrivers } from './pending-drivers-provider'
+import { type StudentVerification } from '../data/schema'
+import { useStudentVerifications } from './student-verifications-provider'
 
 type DataTableRowActionsProps = {
-  row: Row<PendingDriverProfile>
+  row: Row<StudentVerification>
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-  const { setOpen, setCurrentDriver } = usePendingDrivers()
-  const driver = row.original
+  const { setOpen, setCurrentStudent } = useStudentVerifications()
+  const student = row.original
 
   return (
     <>
@@ -35,11 +35,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         <DropdownMenuContent align='end' className='w-[200px]'>
           <DropdownMenuItem
             onClick={() => {
-              setCurrentDriver(driver)
+              setCurrentStudent(student)
               setOpen('view')
             }}
           >
-            View Profile
+            View Verification
             <DropdownMenuShortcut>
               <Eye size={16} />
             </DropdownMenuShortcut>
@@ -47,16 +47,16 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
           <DropdownMenuSeparator />
 
-          {driver.approval_status === 'PENDING' && (
+          {student.student_id && student.university_name && (
             <>
               <DropdownMenuItem
                 onClick={() => {
-                  setCurrentDriver(driver)
+                  setCurrentStudent(student)
                   setOpen('approve')
                 }}
                 className='text-green-600'
               >
-                Approve Driver
+                Approve Student
                 <DropdownMenuShortcut>
                   <CheckCircle size={16} />
                 </DropdownMenuShortcut>
@@ -64,12 +64,12 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
               <DropdownMenuItem
                 onClick={() => {
-                  setCurrentDriver(driver)
+                  setCurrentStudent(student)
                   setOpen('reject')
                 }}
                 className='text-red-600'
               >
-                Reject Driver
+                Reject Student
                 <DropdownMenuShortcut>
                   <XCircle size={16} />
                 </DropdownMenuShortcut>
@@ -83,6 +83,3 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     </>
   )
 }
-
-
-

@@ -1,11 +1,11 @@
 import { getRouteApi } from '@tanstack/react-router'
+import { usePageTitle } from '@/hooks/use-page-title'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { usePageTitle } from '@/hooks/use-page-title'
 import { UsersDialogs } from './components/users-dialogs'
 import { UsersPrimaryButtons } from './components/users-primary-buttons'
 import { UsersProvider } from './components/users-provider'
@@ -16,7 +16,7 @@ const route = getRouteApi('/_authenticated/users/')
 
 export function Users() {
   usePageTitle('Users')
-  
+
   const search = route.useSearch()
   const navigate = route.useNavigate()
   const { data: users = [], isLoading, error } = useUsersQuery()

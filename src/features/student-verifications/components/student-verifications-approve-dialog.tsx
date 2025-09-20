@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { XCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,45 +22,48 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { useRejectDriverMutation } from '../hooks/use-pending-drivers-query'
-import { usePendingDrivers } from './pending-drivers-provider'
+import { useApproveStudentVerificationMutation } from '../hooks/use-student-verifications-query'
+import { useStudentVerifications } from './student-verifications-provider'
 
-const rejectDriverSchema = z.object({
-  reason: z.string().min(10, 'Please provide a detailed reason for rejection'),
+const approveStudentVerificationSchema = z.object({
+  adminNotes: z.string().optional(),
 })
 
-type RejectDriverFormData = z.infer<typeof rejectDriverSchema>
+type ApproveStudentVerificationFormData = z.infer<
+  typeof approveStudentVerificationSchema
+>
 
-export function PendingDriversRejectDialog() {
-  const { open, setOpen, currentDriver } = usePendingDrivers()
+export function StudentVerificationsApproveDialog() {
+  const { open, setOpen, currentStudent } = useStudentVerifications()
   const [isLoading, setIsLoading] = useState(false)
-  const rejectDriverMutation = useRejectDriverMutation()
+  const approveStudentVerificationMutation =
+    useApproveStudentVerificationMutation()
 
-  const form = useForm<RejectDriverFormData>({
-    resolver: zodResolver(rejectDriverSchema),
+  const form = useForm<ApproveStudentVerificationFormData>({
+    resolver: zodResolver(approveStudentVerificationSchema),
     defaultValues: {
-      reason: '',
+      adminNotes: '',
     },
   })
 
-  const isOpen = open === 'reject'
+  const isOpen = open === 'approve'
 
-  const onSubmit = async (data: RejectDriverFormData) => {
-    if (!currentDriver) return
+  const onSubmit = async (data: ApproveStudentVerificationFormData) => {
+    if (!currentStudent) return
 
     setIsLoading(true)
     try {
-      await rejectDriverMutation.mutateAsync({
-        driverProfileId: currentDriver.id,
-        reason: data.reason,
+      await approveStudentVerificationMutation.mutateAsync({
+        userId: currentStudent.id,
+        adminNotes: data.adminNotes,
       })
 
-      toast.success('Driver rejected successfully!')
+      toast.success('Student verification approved successfully!')
       setOpen(null)
       form.reset()
     } catch (error) {
-      toast.error('Failed to reject driver. Please try again.')
-      console.error('Driver rejection error:', error)
+      toast.error('Failed to approve student verification. Please try again.')
+      console.error('Student verification approval error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -71,25 +74,21 @@ export function PendingDriversRejectDialog() {
     form.reset()
   }
 
-  if (!currentDriver) return null
-
-  const driverName =
-    currentDriver.firstName && currentDriver.lastName
-      ? `${currentDriver.firstName} ${currentDriver.lastName}`
-      : currentDriver.user.email
+  if (!currentStudent) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2'>
-            <XCircle className='h-5 w-5 text-red-600' />
-            Reject Driver
+            <CheckCircle className='h-5 w-5 text-green-600' />
+            Approve Student Verification
           </DialogTitle>
           <DialogDescription>
-            Reject <strong>{driverName}</strong>'s application. This will send a
-            notification to the driver about their rejection with the reason you
-            provide.
+            Approve <strong>{currentStudent.email}</strong> as a verified
+            student. This will grant them access to discounted fares (BWP 5.50
+            instead of BWP 8.00). A notification will be sent to the student
+            about their approval.
           </DialogDescription>
         </DialogHeader>
 
@@ -97,15 +96,15 @@ export function PendingDriversRejectDialog() {
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <FormField
               control={form.control}
-              name='reason'
+              name='adminNotes'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Rejection Reason *</FormLabel>
+                  <FormLabel>Admin Notes (Optional)</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Please provide a detailed reason for rejection...'
+                      placeholder='Add any notes for the student about their verification approval...'
                       className='resize-none'
-                      rows={4}
+                      rows={3}
                       {...field}
                     />
                   </FormControl>
@@ -121,9 +120,9 @@ export function PendingDriversRejectDialog() {
               <Button
                 type='submit'
                 disabled={isLoading}
-                className='bg-red-600 hover:bg-red-700'
+                className='bg-green-600 hover:bg-green-700'
               >
-                {isLoading ? 'Rejecting...' : 'Reject Driver'}
+                {isLoading ? 'Approving...' : 'Approve Student'}
               </Button>
             </DialogFooter>
           </form>
@@ -132,6 +131,3 @@ export function PendingDriversRejectDialog() {
     </Dialog>
   )
 }
-
-
-

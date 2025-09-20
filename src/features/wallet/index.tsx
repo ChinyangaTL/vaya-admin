@@ -1,17 +1,17 @@
+import { usePageTitle } from '@/hooks/use-page-title'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { usePageTitle } from '@/hooks/use-page-title'
 import { PendingDeposits } from './components/pending-deposits'
 import { PendingWithdrawals } from './components/pending-withdrawals'
 import { TransactionDebug } from './components/transaction-debug'
 
 export function Wallet() {
   usePageTitle('Wallet Management')
-  
+
   return (
     <>
       <Header fixed>

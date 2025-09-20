@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedStudentVerificationsRouteImport } from './routes/_authenticated/student-verifications'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -28,6 +29,7 @@ import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedWalletIndexRouteImport } from './routes/_authenticated/wallet/index'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
+import { Route as AuthenticatedStudentVerificationsIndexRouteImport } from './routes/_authenticated/student-verifications/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedPendingDriversIndexRouteImport } from './routes/_authenticated/pending-drivers/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
@@ -57,6 +59,12 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedStudentVerificationsRoute =
+  AuthenticatedStudentVerificationsRouteImport.update({
+    id: '/student-verifications',
+    path: '/student-verifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const errors503Route = errors503RouteImport.update({
   id: '/(errors)/503',
   path: '/503',
@@ -137,6 +145,12 @@ const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexRouteImport.update({
   path: '/tasks/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedStudentVerificationsIndexRoute =
+  AuthenticatedStudentVerificationsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedStudentVerificationsRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
@@ -232,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/student-verifications': typeof AuthenticatedStudentVerificationsRouteWithChildren
   '/': typeof AuthenticatedIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -247,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/pending-drivers': typeof AuthenticatedPendingDriversIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/wallet': typeof AuthenticatedWalletIndexRoute
@@ -278,6 +294,7 @@ export interface FileRoutesByTo {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/pending-drivers': typeof AuthenticatedPendingDriversIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/student-verifications': typeof AuthenticatedStudentVerificationsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/wallet': typeof AuthenticatedWalletIndexRoute
@@ -299,6 +316,7 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/_authenticated/student-verifications': typeof AuthenticatedStudentVerificationsRouteWithChildren
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -314,6 +332,7 @@ export interface FileRoutesById {
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/pending-drivers/': typeof AuthenticatedPendingDriversIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/wallet/': typeof AuthenticatedWalletIndexRoute
@@ -334,6 +353,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/student-verifications'
     | '/'
     | '/errors/$error'
     | '/settings/account'
@@ -349,6 +369,7 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/pending-drivers'
     | '/settings/'
+    | '/student-verifications/'
     | '/tasks'
     | '/users'
     | '/wallet'
@@ -380,6 +401,7 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/pending-drivers'
     | '/settings'
+    | '/student-verifications'
     | '/tasks'
     | '/users'
     | '/wallet'
@@ -400,6 +422,7 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/_authenticated/student-verifications'
     | '/_authenticated/'
     | '/_authenticated/errors/$error'
     | '/_authenticated/settings/account'
@@ -415,6 +438,7 @@ export interface FileRouteTypes {
     | '/_authenticated/help-center/'
     | '/_authenticated/pending-drivers/'
     | '/_authenticated/settings/'
+    | '/_authenticated/student-verifications/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
     | '/_authenticated/wallet/'
@@ -456,6 +480,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/student-verifications': {
+      id: '/_authenticated/student-verifications'
+      path: '/student-verifications'
+      fullPath: '/student-verifications'
+      preLoaderRoute: typeof AuthenticatedStudentVerificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/(errors)/503': {
@@ -569,6 +600,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tasks'
       preLoaderRoute: typeof AuthenticatedTasksIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/student-verifications/': {
+      id: '/_authenticated/student-verifications/'
+      path: '/'
+      fullPath: '/student-verifications/'
+      preLoaderRoute: typeof AuthenticatedStudentVerificationsIndexRouteImport
+      parentRoute: typeof AuthenticatedStudentVerificationsRoute
     }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
@@ -694,8 +732,24 @@ const AuthenticatedSettingsRouteRouteWithChildren =
     AuthenticatedSettingsRouteRouteChildren,
   )
 
+interface AuthenticatedStudentVerificationsRouteChildren {
+  AuthenticatedStudentVerificationsIndexRoute: typeof AuthenticatedStudentVerificationsIndexRoute
+}
+
+const AuthenticatedStudentVerificationsRouteChildren: AuthenticatedStudentVerificationsRouteChildren =
+  {
+    AuthenticatedStudentVerificationsIndexRoute:
+      AuthenticatedStudentVerificationsIndexRoute,
+  }
+
+const AuthenticatedStudentVerificationsRouteWithChildren =
+  AuthenticatedStudentVerificationsRoute._addFileChildren(
+    AuthenticatedStudentVerificationsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedStudentVerificationsRoute: typeof AuthenticatedStudentVerificationsRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
@@ -710,6 +764,8 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedStudentVerificationsRoute:
+    AuthenticatedStudentVerificationsRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,

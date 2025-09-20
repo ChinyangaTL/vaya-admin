@@ -14,6 +14,7 @@ import {
   Command,
   GalleryVerticalEnd,
   Wallet,
+  GraduationCap,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
@@ -58,6 +59,11 @@ export const sidebarData: SidebarData = {
           title: 'Pending Drivers',
           url: '/pending-drivers',
           icon: UserX,
+        },
+        {
+          title: 'Student Verifications',
+          url: '/student-verifications',
+          icon: GraduationCap,
         },
         {
           title: 'Routes',
