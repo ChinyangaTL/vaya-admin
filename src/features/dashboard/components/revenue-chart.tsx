@@ -207,3 +207,4 @@ export function RevenueChart({ stats }: RevenueChartProps) {
     </Card>
   )
 }
+

@@ -31,3 +31,4 @@ export const studentVerificationStatuses: Array<{
     color: 'text-red-600 border-red-200 bg-red-50',
   },
 ]
+

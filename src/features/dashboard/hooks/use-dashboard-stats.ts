@@ -89,3 +89,4 @@ export function useRealtimeActivity() {
     refetchInterval: 15 * 1000, // Refetch every 15 seconds
   })
 }
+
