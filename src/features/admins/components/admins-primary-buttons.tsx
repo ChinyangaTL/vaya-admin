@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { useAdminsContext } from './admins-provider'
 
 export function AdminsPrimaryButtons() {
@@ -14,4 +14,3 @@ export function AdminsPrimaryButtons() {
     </div>
   )
 }
-

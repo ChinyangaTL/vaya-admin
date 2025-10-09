@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
-import { Admin } from '../data/schema'
 import { DataTableColumnHeader } from '@/components/data-table'
+import { Admin } from '../data/schema'
 
 export const adminsColumns: ColumnDef<Admin>[] = [
   {
@@ -59,4 +59,3 @@ export const adminsColumns: ColumnDef<Admin>[] = [
     },
   },
 ]
-

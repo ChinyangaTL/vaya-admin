@@ -18,4 +18,3 @@ export const createAdminSchema = z.object({
 })
 
 export type CreateAdminInput = z.infer<typeof createAdminSchema>
-

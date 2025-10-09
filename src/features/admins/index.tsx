@@ -1,3 +1,6 @@
+import { AlertCircle, Shield } from 'lucide-react'
+import { usePageTitle } from '@/hooks/use-page-title'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -9,9 +12,6 @@ import { AdminsPrimaryButtons } from './components/admins-primary-buttons'
 import { AdminsProvider } from './components/admins-provider'
 import { AdminsTable } from './components/admins-table'
 import { useAdminsQuery } from './hooks/use-admins-query'
-import { usePageTitle } from '@/hooks/use-page-title'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertCircle, Shield } from 'lucide-react'
 
 export function Admins() {
   usePageTitle('Admin Management')
@@ -59,7 +59,7 @@ export function Admins() {
           <div className='flex flex-wrap items-center justify-between gap-4'>
             <div>
               <div className='flex items-center gap-2'>
-                <Shield className='h-6 w-6 text-vaya-orange' />
+                <Shield className='text-vaya-orange h-6 w-6' />
                 <h2 className='text-2xl font-bold tracking-tight'>
                   Admin Management
                 </h2>
@@ -76,7 +76,8 @@ export function Admins() {
             <AlertTitle>Security Notice</AlertTitle>
             <AlertDescription>
               Only existing admins can create new admin accounts. Admin accounts
-              cannot be created through public registration for security reasons.
+              cannot be created through public registration for security
+              reasons.
             </AlertDescription>
           </Alert>
         </div>
@@ -90,4 +91,3 @@ export function Admins() {
     </AdminsProvider>
   )
 }
-

@@ -1,3 +1,5 @@
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,8 +19,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { createAdminSchema, CreateAdminInput } from '../data/schema'
 import { useCreateAdminMutation } from '../hooks/use-admins-query'
 import { useAdminsContext } from './admins-provider'
@@ -51,7 +51,8 @@ export function AdminsCreateDialog() {
         <DialogHeader>
           <DialogTitle>Create New Admin</DialogTitle>
           <DialogDescription>
-            Create a new admin account. Only admins can create other admins for security.
+            Create a new admin account. Only admins can create other admins for
+            security.
           </DialogDescription>
         </DialogHeader>
 
@@ -64,10 +65,7 @@ export function AdminsCreateDialog() {
                 <FormItem>
                   <FormLabel>Phone Number *</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder='+26771234567'
-                      {...field}
-                    />
+                    <Input placeholder='+26771234567' {...field} />
                   </FormControl>
                   <FormDescription>
                     Botswana format: +267XXXXXXXX
@@ -105,15 +103,9 @@ export function AdminsCreateDialog() {
                 <FormItem>
                   <FormLabel>Password *</FormLabel>
                   <FormControl>
-                    <Input
-                      type='password'
-                      placeholder='••••••••'
-                      {...field}
-                    />
+                    <Input type='password' placeholder='••••••••' {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Minimum 8 characters
-                  </FormDescription>
+                  <FormDescription>Minimum 8 characters</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -127,10 +119,7 @@ export function AdminsCreateDialog() {
               >
                 Cancel
               </Button>
-              <Button
-                type='submit'
-                disabled={createAdminMutation.isPending}
-              >
+              <Button type='submit' disabled={createAdminMutation.isPending}>
                 {createAdminMutation.isPending ? 'Creating...' : 'Create Admin'}
               </Button>
             </DialogFooter>
@@ -140,4 +129,3 @@ export function AdminsCreateDialog() {
     </Dialog>
   )
 }
-
