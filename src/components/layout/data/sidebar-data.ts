@@ -15,6 +15,7 @@ import {
   GalleryVerticalEnd,
   Wallet,
   GraduationCap,
+  Shield,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
@@ -79,6 +80,11 @@ export const sidebarData: SidebarData = {
           title: 'Wallet',
           url: '/wallet',
           icon: Wallet,
+        },
+        {
+          title: 'Admins',
+          url: '/admins',
+          icon: Shield,
         },
       ],
     },
