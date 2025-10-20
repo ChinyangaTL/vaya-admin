@@ -259,6 +259,11 @@ export const adminAPI = {
     return response.data
   },
 
+  deleteUser: async (userId: string) => {
+    const response = await apiClient.delete(`/admin/users/${userId}`)
+    return response.data
+  },
+
   // Wallet Management
   getPendingDeposits: async (limit = 50, offset = 0) => {
     const response = await apiClient.get(

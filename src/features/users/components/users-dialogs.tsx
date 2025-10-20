@@ -1,3 +1,4 @@
+import { useUsersQuery } from '../hooks/use-users-query'
 import { UsersActionDialog } from './users-action-dialog'
 import { UsersChangeRoleDialog } from './users-change-role-dialog'
 import { UsersDeleteDialog } from './users-delete-dialog'
@@ -6,6 +7,12 @@ import { useUsers } from './users-provider'
 
 export function UsersDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useUsers()
+  const { refetch } = useUsersQuery()
+
+  const handleUserDeleted = () => {
+    refetch()
+  }
+
   return (
     <>
       <UsersActionDialog
@@ -46,6 +53,7 @@ export function UsersDialogs() {
               }, 500)
             }}
             currentRow={currentRow}
+            onUserDeleted={handleUserDeleted}
           />
         </>
       )}

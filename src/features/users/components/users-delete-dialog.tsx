@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { AlertTriangle } from 'lucide-react'
-import { showSubmittedData } from '@/lib/show-submitted-data'
+import { toast } from 'sonner'
+import { adminAPI } from '@/lib/api-client'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -13,20 +14,47 @@ type UserDeleteDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow: User
+  onUserDeleted?: () => void
 }
 
 export function UsersDeleteDialog({
   open,
   onOpenChange,
   currentRow,
+  onUserDeleted,
 }: UserDeleteDialogProps) {
   const [value, setValue] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (value.trim() !== currentRow.email) return
 
-    onOpenChange(false)
-    showSubmittedData(currentRow, 'The following user has been deleted:')
+    setIsDeleting(true)
+    try {
+      await adminAPI.deleteUser(currentRow.id)
+
+      toast.success('User deleted successfully', {
+        description: `User ${currentRow.email} has been permanently deleted from the system.`,
+      })
+
+      onOpenChange(false)
+      setValue('')
+
+      // Trigger refresh of user list
+      if (onUserDeleted) {
+        onUserDeleted()
+      }
+    } catch (error: any) {
+      console.error('Failed to delete user:', error)
+      toast.error('Failed to delete user', {
+        description:
+          error.response?.data?.message ||
+          error.message ||
+          'An unexpected error occurred',
+      })
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -34,7 +62,8 @@ export function UsersDeleteDialog({
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.email}
+      disabled={value.trim() !== currentRow.email || isDeleting}
+      loading={isDeleting}
       title={
         <span className='text-destructive'>
           <AlertTriangle
@@ -74,7 +103,7 @@ export function UsersDeleteDialog({
           </Alert>
         </div>
       }
-      confirmText='Delete'
+      confirmText={isDeleting ? 'Deleting...' : 'Delete'}
       destructive
     />
   )
