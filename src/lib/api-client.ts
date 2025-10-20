@@ -226,6 +226,13 @@ export const adminAPI = {
     return response.data.payload.signedUrl
   },
 
+  getStudentDocumentUrl: async (filePath: string) => {
+    const response = await apiClient.get(
+      `/auth/student-documents/${encodeURIComponent(filePath)}/url`
+    )
+    return response.data.payload.signedUrl
+  },
+
   // Route Management
   getRoutes: async () => {
     const response = await apiClient.get('/admin/routes')

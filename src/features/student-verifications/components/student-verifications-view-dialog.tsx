@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { studentVerificationStatuses } from '../data/data'
+import { useStudentDocumentUrlQuery } from '../hooks/use-student-document-url'
 import { useStudentVerifications } from './student-verifications-provider'
 
 // Document Item Component
@@ -29,10 +30,16 @@ function DocumentItem({
   filePath: string | null
   type: 'document' | 'image'
 }) {
+  const {
+    data: signedUrl,
+    isLoading,
+    error,
+  } = useStudentDocumentUrlQuery(filePath)
+
   const handleViewDocument = () => {
-    if (filePath) {
+    if (signedUrl) {
       // Open document in new tab
-      window.open(filePath, '_blank')
+      window.open(signedUrl, '_blank')
     }
   }
 
@@ -53,14 +60,24 @@ function DocumentItem({
       </div>
       <div>
         {filePath ? (
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={handleViewDocument}
-            className='h-8'
-          >
-            View
-          </Button>
+          isLoading ? (
+            <Badge variant='secondary' className='text-xs'>
+              Loading...
+            </Badge>
+          ) : error ? (
+            <Badge variant='destructive' className='text-xs'>
+              Error
+            </Badge>
+          ) : (
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={handleViewDocument}
+              className='h-8'
+            >
+              View
+            </Button>
+          )
         ) : (
           <Badge variant='secondary' className='text-xs'>
             Not Available
