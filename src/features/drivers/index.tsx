@@ -5,6 +5,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { NotificationBell } from '@/features/notifications'
 import { DriversDialogs } from './components/drivers-dialogs'
 import { DriversPrimaryButtons } from './components/drivers-primary-buttons'
 import { DriversProvider } from './components/drivers-provider'
@@ -25,6 +26,7 @@ export function Drivers() {
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center gap-2'>
+          <NotificationBell />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

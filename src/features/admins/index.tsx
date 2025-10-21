@@ -7,6 +7,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { NotificationBell } from '@/features/notifications'
 import { AdminsDialogs } from './components/admins-dialogs'
 import { AdminsPrimaryButtons } from './components/admins-primary-buttons'
 import { AdminsProvider } from './components/admins-provider'
@@ -48,6 +49,7 @@ export function Admins() {
       <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
+          <NotificationBell />
           <ThemeSwitch />
           <ConfigDrawer />
           <ProfileDropdown />
