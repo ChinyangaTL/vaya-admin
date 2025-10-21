@@ -101,9 +101,7 @@ export function Dashboard() {
               <TabsTrigger value='reports' disabled>
                 Reports
               </TabsTrigger>
-              <TabsTrigger value='notifications'>
-                Notifications
-              </TabsTrigger>
+              <TabsTrigger value='notifications'>Notifications</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value='overview' className='space-y-4'>
@@ -121,7 +119,8 @@ export function Dashboard() {
               <div className='text-center'>
                 <h3 className='text-lg font-semibold'>Notifications</h3>
                 <p className='text-muted-foreground mb-4'>
-                  View and manage all notifications in the dedicated notifications page.
+                  View and manage all notifications in the dedicated
+                  notifications page.
                 </p>
                 <Button asChild>
                   <a href='/notifications'>Go to Notifications</a>

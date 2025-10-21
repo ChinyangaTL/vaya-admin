@@ -1,26 +1,45 @@
 import { useState } from 'react'
-import { usePageTitle } from '@/hooks/use-page-title'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { NotificationBell } from '@/features/notifications'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Separator } from '@/components/ui/separator'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { formatDistanceToNow } from 'date-fns'
-import { Bell, BellRing, CheckCheck, Filter, MoreHorizontal, Trash2 } from 'lucide-react'
+import {
+  Bell,
+  BellRing,
+  CheckCheck,
+  Filter,
+  MoreHorizontal,
+  Trash2,
+} from 'lucide-react'
+import { usePageTitle } from '@/hooks/use-page-title'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { NotificationBell } from '@/features/notifications'
+import { usePushNotifications } from '@/hooks/use-push-notifications'
+import {
+  type Notification,
+  notificationTypeLabels,
+  notificationPriorityColors,
+} from '@/features/notifications/data/schema'
 import {
   useAdminNotificationsQuery,
   useAdminNotificationStatsQuery,
@@ -28,11 +47,6 @@ import {
   useMarkAllNotificationsAsReadMutation,
   useDeleteNotificationMutation,
 } from '@/features/notifications/hooks/use-notifications-query'
-import {
-  type Notification,
-  notificationTypeLabels,
-  notificationPriorityColors,
-} from '@/features/notifications/data/schema'
 
 export function Notifications() {
   usePageTitle('Notifications')
@@ -112,8 +126,10 @@ export function Notifications() {
           <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                <CardTitle className='text-sm font-medium'>Total Notifications</CardTitle>
-                <Bell className='h-4 w-4 text-muted-foreground' />
+                <CardTitle className='text-sm font-medium'>
+                  Total Notifications
+                </CardTitle>
+                <Bell className='text-muted-foreground h-4 w-4' />
               </CardHeader>
               <CardContent>
                 <div className='text-2xl font-bold'>{totalNotifications}</div>
@@ -122,16 +138,18 @@ export function Notifications() {
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                 <CardTitle className='text-sm font-medium'>Unread</CardTitle>
-                <BellRing className='h-4 w-4 text-muted-foreground' />
+                <BellRing className='text-muted-foreground h-4 w-4' />
               </CardHeader>
               <CardContent>
-                <div className='text-2xl font-bold text-orange-600'>{unreadNotifications}</div>
+                <div className='text-2xl font-bold text-orange-600'>
+                  {unreadNotifications}
+                </div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                 <CardTitle className='text-sm font-medium'>Read</CardTitle>
-                <CheckCheck className='h-4 w-4 text-muted-foreground' />
+                <CheckCheck className='text-muted-foreground h-4 w-4' />
               </CardHeader>
               <CardContent>
                 <div className='text-2xl font-bold text-green-600'>
@@ -142,7 +160,11 @@ export function Notifications() {
           </div>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className='space-y-4'>
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className='space-y-4'
+        >
           <TabsList>
             <TabsTrigger value='all'>All Notifications</TabsTrigger>
             <TabsTrigger value='unread'>Unread Only</TabsTrigger>
@@ -154,10 +176,13 @@ export function Notifications() {
                 <div className='flex items-center justify-between'>
                   <div>
                     <CardTitle>
-                      {activeTab === 'unread' ? 'Unread Notifications' : 'All Notifications'}
+                      {activeTab === 'unread'
+                        ? 'Unread Notifications'
+                        : 'All Notifications'}
                     </CardTitle>
                     <CardDescription>
-                      {notificationList.length} notification{notificationList.length !== 1 ? 's' : ''}
+                      {notificationList.length} notification
+                      {notificationList.length !== 1 ? 's' : ''}
                     </CardDescription>
                   </div>
                   <DropdownMenu>
@@ -168,18 +193,22 @@ export function Notifications() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem onClick={() => setFilterType(undefined)}>
+                      <DropdownMenuItem
+                        onClick={() => setFilterType(undefined)}
+                      >
                         All Types
                       </DropdownMenuItem>
                       <Separator />
-                      {Object.entries(notificationTypeLabels).map(([type, label]) => (
-                        <DropdownMenuItem
-                          key={type}
-                          onClick={() => setFilterType(type)}
-                        >
-                          {label}
-                        </DropdownMenuItem>
-                      ))}
+                      {Object.entries(notificationTypeLabels).map(
+                        ([type, label]) => (
+                          <DropdownMenuItem
+                            key={type}
+                            onClick={() => setFilterType(type)}
+                          >
+                            {label}
+                          </DropdownMenuItem>
+                        )
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -188,13 +217,17 @@ export function Notifications() {
                 <ScrollArea className='h-[600px]'>
                   {isLoading ? (
                     <div className='flex items-center justify-center py-8'>
-                      <div className='text-muted-foreground'>Loading notifications...</div>
+                      <div className='text-muted-foreground'>
+                        Loading notifications...
+                      </div>
                     </div>
                   ) : notificationList.length === 0 ? (
                     <div className='flex items-center justify-center py-8'>
                       <div className='text-center'>
-                        <Bell className='mx-auto h-12 w-12 text-muted-foreground' />
-                        <h3 className='mt-2 text-sm font-semibold'>No notifications</h3>
+                        <Bell className='text-muted-foreground mx-auto h-12 w-12' />
+                        <h3 className='mt-2 text-sm font-semibold'>
+                          No notifications
+                        </h3>
                         <p className='text-muted-foreground text-sm'>
                           {activeTab === 'unread'
                             ? 'All notifications have been read'
@@ -230,9 +263,15 @@ interface NotificationCardProps {
   onDelete: (id: string) => void
 }
 
-function NotificationCard({ notification, onMarkAsRead, onDelete }: NotificationCardProps) {
+function NotificationCard({
+  notification,
+  onMarkAsRead,
+  onDelete,
+}: NotificationCardProps) {
   return (
-    <Card className={`transition-colors hover:bg-muted/50 ${!notification.isRead ? 'border-l-4 border-l-blue-500 bg-blue-50/50' : ''}`}>
+    <Card
+      className={`hover:bg-muted/50 transition-colors ${!notification.isRead ? 'border-l-4 border-l-blue-500 bg-blue-50/50' : ''}`}
+    >
       <CardContent className='p-4'>
         <div className='flex items-start justify-between'>
           <div className='flex-1 space-y-2'>
@@ -253,15 +292,22 @@ function NotificationCard({ notification, onMarkAsRead, onDelete }: Notification
             </div>
 
             <h4 className='font-medium'>{notification.title}</h4>
-            <p className='text-muted-foreground text-sm'>{notification.message}</p>
+            <p className='text-muted-foreground text-sm'>
+              {notification.message}
+            </p>
 
-            <div className='flex items-center gap-4 text-xs text-muted-foreground'>
+            <div className='text-muted-foreground flex items-center gap-4 text-xs'>
               <span>
-                {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
+                {formatDistanceToNow(new Date(notification.createdAt), {
+                  addSuffix: true,
+                })}
               </span>
               {notification.expiresAt && (
                 <span>
-                  Expires: {formatDistanceToNow(new Date(notification.expiresAt), { addSuffix: true })}
+                  Expires:{' '}
+                  {formatDistanceToNow(new Date(notification.expiresAt), {
+                    addSuffix: true,
+                  })}
                 </span>
               )}
             </div>
