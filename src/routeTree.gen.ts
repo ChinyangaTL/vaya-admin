@@ -32,6 +32,7 @@ import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedStudentVerificationsIndexRouteImport } from './routes/_authenticated/student-verifications/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedPendingDriversIndexRouteImport } from './routes/_authenticated/pending-drivers/index'
+import { Route as AuthenticatedNotificationsIndexRouteImport } from './routes/_authenticated/notifications/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedDriversIndexRouteImport } from './routes/_authenticated/drivers/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
@@ -164,6 +165,12 @@ const AuthenticatedPendingDriversIndexRoute =
     path: '/pending-drivers/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedNotificationsIndexRoute =
+  AuthenticatedNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
@@ -268,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/pending-drivers': typeof AuthenticatedPendingDriversIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
@@ -301,6 +309,7 @@ export interface FileRoutesByTo {
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/pending-drivers': typeof AuthenticatedPendingDriversIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/student-verifications': typeof AuthenticatedStudentVerificationsIndexRoute
@@ -340,6 +349,7 @@ export interface FileRoutesById {
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/drivers/': typeof AuthenticatedDriversIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/notifications/': typeof AuthenticatedNotificationsIndexRoute
   '/_authenticated/pending-drivers/': typeof AuthenticatedPendingDriversIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
@@ -378,6 +388,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/drivers'
     | '/help-center'
+    | '/notifications'
     | '/pending-drivers'
     | '/settings/'
     | '/student-verifications/'
@@ -411,6 +422,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/drivers'
     | '/help-center'
+    | '/notifications'
     | '/pending-drivers'
     | '/settings'
     | '/student-verifications'
@@ -449,6 +461,7 @@ export interface FileRouteTypes {
     | '/_authenticated/chats/'
     | '/_authenticated/drivers/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/notifications/'
     | '/_authenticated/pending-drivers/'
     | '/_authenticated/settings/'
     | '/_authenticated/student-verifications/'
@@ -635,6 +648,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPendingDriversIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notifications/': {
+      id: '/_authenticated/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/help-center/': {
       id: '/_authenticated/help-center/'
       path: '/help-center'
@@ -777,6 +797,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedDriversIndexRoute: typeof AuthenticatedDriversIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
+  AuthenticatedNotificationsIndexRoute: typeof AuthenticatedNotificationsIndexRoute
   AuthenticatedPendingDriversIndexRoute: typeof AuthenticatedPendingDriversIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
@@ -794,6 +815,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedDriversIndexRoute: AuthenticatedDriversIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
+  AuthenticatedNotificationsIndexRoute: AuthenticatedNotificationsIndexRoute,
   AuthenticatedPendingDriversIndexRoute: AuthenticatedPendingDriversIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,

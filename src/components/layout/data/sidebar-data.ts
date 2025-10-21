@@ -86,6 +86,11 @@ export const sidebarData: SidebarData = {
           url: '/admins',
           icon: Shield,
         },
+        {
+          title: 'Notifications',
+          url: '/notifications',
+          icon: Bell,
+        },
       ],
     },
     {

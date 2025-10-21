@@ -101,7 +101,7 @@ export function Dashboard() {
               <TabsTrigger value='reports' disabled>
                 Reports
               </TabsTrigger>
-              <TabsTrigger value='notifications' disabled>
+              <TabsTrigger value='notifications'>
                 Notifications
               </TabsTrigger>
             </TabsList>
@@ -114,6 +114,19 @@ export function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <RevenueChart stats={stats} />
               <RecentTransactions stats={stats} />
+            </div>
+          </TabsContent>
+          <TabsContent value='notifications' className='space-y-4'>
+            <div className='flex items-center justify-center py-8'>
+              <div className='text-center'>
+                <h3 className='text-lg font-semibold'>Notifications</h3>
+                <p className='text-muted-foreground mb-4'>
+                  View and manage all notifications in the dedicated notifications page.
+                </p>
+                <Button asChild>
+                  <a href='/notifications'>Go to Notifications</a>
+                </Button>
+              </div>
             </div>
           </TabsContent>
         </Tabs>
