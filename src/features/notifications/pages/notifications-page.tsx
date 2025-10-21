@@ -9,6 +9,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { usePageTitle } from '@/hooks/use-page-title'
+import { usePushNotifications } from '@/hooks/use-push-notifications'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -34,7 +35,6 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { NotificationBell } from '@/features/notifications'
-import { usePushNotifications } from '@/hooks/use-push-notifications'
 import {
   type Notification,
   notificationTypeLabels,
@@ -177,23 +177,33 @@ export function Notifications() {
             </Card>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                <CardTitle className='text-sm font-medium'>Browser Notifications</CardTitle>
+                <CardTitle className='text-sm font-medium'>
+                  Browser Notifications
+                </CardTitle>
                 <BellRing className='text-muted-foreground h-4 w-4' />
               </CardHeader>
               <CardContent>
-                <div className={`text-2xl font-bold ${
-                  !isSupported ? 'text-gray-500' :
-                  permission === 'granted' ? 'text-green-600' :
-                  permission === 'denied' ? 'text-red-600' :
-                  'text-yellow-600'
-                }`}>
-                  {!isSupported ? 'Not Supported' :
-                   permission === 'granted' ? 'Enabled' :
-                   permission === 'denied' ? 'Denied' :
-                   'Not Requested'}
+                <div
+                  className={`text-2xl font-bold ${
+                    !isSupported
+                      ? 'text-gray-500'
+                      : permission === 'granted'
+                        ? 'text-green-600'
+                        : permission === 'denied'
+                          ? 'text-red-600'
+                          : 'text-yellow-600'
+                  }`}
+                >
+                  {!isSupported
+                    ? 'Not Supported'
+                    : permission === 'granted'
+                      ? 'Enabled'
+                      : permission === 'denied'
+                        ? 'Denied'
+                        : 'Not Requested'}
                 </div>
                 {permission === 'denied' && (
-                  <p className='text-xs text-red-600 mt-1'>
+                  <p className='mt-1 text-xs text-red-600'>
                     Enable in browser settings
                   </p>
                 )}
