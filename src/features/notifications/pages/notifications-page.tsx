@@ -61,6 +61,13 @@ export function Notifications() {
     type: filterType,
   })
 
+  const {
+    isSupported,
+    permission,
+    isLoading: pushLoading,
+    requestPermission,
+  } = usePushNotifications()
+
   const markAsReadMutation = useMarkNotificationAsReadMutation()
   const markAllAsReadMutation = useMarkAllNotificationsAsReadMutation()
   const deleteMutation = useDeleteNotificationMutation()
@@ -119,11 +126,22 @@ export function Notifications() {
                   Mark All Read
                 </Button>
               )}
+              {isSupported && permission !== 'granted' && (
+                <Button
+                  variant='default'
+                  size='sm'
+                  onClick={requestPermission}
+                  disabled={pushLoading}
+                >
+                  <BellRing className='mr-2 h-4 w-4' />
+                  Enable Browser Notifications
+                </Button>
+              )}
             </div>
           </div>
 
           {/* Stats Cards */}
-          <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                 <CardTitle className='text-sm font-medium'>
@@ -155,6 +173,30 @@ export function Notifications() {
                 <div className='text-2xl font-bold text-green-600'>
                   {totalNotifications - unreadNotifications}
                 </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardTitle className='text-sm font-medium'>Browser Notifications</CardTitle>
+                <BellRing className='text-muted-foreground h-4 w-4' />
+              </CardHeader>
+              <CardContent>
+                <div className={`text-2xl font-bold ${
+                  !isSupported ? 'text-gray-500' :
+                  permission === 'granted' ? 'text-green-600' :
+                  permission === 'denied' ? 'text-red-600' :
+                  'text-yellow-600'
+                }`}>
+                  {!isSupported ? 'Not Supported' :
+                   permission === 'granted' ? 'Enabled' :
+                   permission === 'denied' ? 'Denied' :
+                   'Not Requested'}
+                </div>
+                {permission === 'denied' && (
+                  <p className='text-xs text-red-600 mt-1'>
+                    Enable in browser settings
+                  </p>
+                )}
               </CardContent>
             </Card>
           </div>
