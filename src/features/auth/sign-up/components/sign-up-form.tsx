@@ -15,18 +15,37 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { authAPI } from '@/lib/api-client'
+import { toast } from 'sonner'
+import { useRouter } from '@tanstack/react-router'
 
 const formSchema = z
   .object({
+    firstName: z
+      .string()
+      .min(1, 'Please enter your first name')
+      .min(2, 'First name must be at least 2 characters long'),
+    lastName: z
+      .string()
+      .min(1, 'Please enter your last name')
+      .min(2, 'Last name must be at least 2 characters long'),
     email: z.email({
       error: (iss) =>
         iss.input === '' ? 'Please enter your email' : undefined,
     }),
+    phone: z
+      .string()
+      .min(1, 'Please enter your phone number')
+      .regex(/^\+267\d{8}$/, 'Phone must be in format +267XXXXXXXX'),
     password: z
       .string()
       .min(1, 'Please enter your password')
       .min(7, 'Password must be at least 7 characters long'),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
+    role: z.enum(['RIDER', 'DRIVER'], {
+      required_error: 'Please select a role',
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match.",
@@ -38,24 +57,42 @@ export function SignUpForm({
   ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
+      phone: '+267',
       password: '',
       confirmPassword: '',
+      role: 'RIDER',
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    // eslint-disable-next-line no-console
-    console.log(data)
-
-    setTimeout(() => {
+    
+    try {
+      await authAPI.register({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        role: data.role,
+      })
+      
+      toast.success('Account created successfully!')
+      router.navigate({ to: '/sign-in' })
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to create account'
+      toast.error(message)
+    } finally {
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (
@@ -65,6 +102,66 @@ export function SignUpForm({
         className={cn('grid gap-3', className)}
         {...props}
       >
+        <FormField
+          control={form.control}
+          name='firstName'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder='John' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='lastName'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder='Doe' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='phone'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input placeholder='+26771234567' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='role'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Role</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Select your role' />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value='RIDER'>Rider</SelectItem>
+                  <SelectItem value='DRIVER'>Driver</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name='email'
@@ -105,7 +202,7 @@ export function SignUpForm({
           )}
         />
         <Button className='mt-2' disabled={isLoading}>
-          Create Account
+          {isLoading ? 'Creating Account...' : 'Create Account'}
         </Button>
 
         <div className='relative my-2'>

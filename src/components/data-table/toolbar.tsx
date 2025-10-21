@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableFacetedFilter } from './faceted-filter'
 import { DataTableViewOptions } from './view-options'
+import { DataTableColumnSearch } from './column-search'
 
 type DataTableToolbarProps<TData> = {
   table: Table<TData>
@@ -18,6 +19,10 @@ type DataTableToolbarProps<TData> = {
       icon?: React.ComponentType<{ className?: string }>
     }[]
   }[]
+  columnSearches?: {
+    columnId: string
+    placeholder: string
+  }[]
 }
 
 export function DataTableToolbar<TData>({
@@ -25,61 +30,82 @@ export function DataTableToolbar<TData>({
   searchPlaceholder = 'Filter...',
   searchKey,
   filters = [],
+  columnSearches = [],
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
     table.getState().columnFilters.length > 0 || table.getState().globalFilter
 
   return (
-    <div className='flex items-center justify-between'>
-      <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
-        {searchKey ? (
-          <Input
-            placeholder={searchPlaceholder}
-            value={
-              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
-            }
-            onChange={(event) =>
-              table.getColumn(searchKey)?.setFilterValue(event.target.value)
-            }
-            className='h-8 w-[150px] lg:w-[250px]'
-          />
-        ) : (
-          <Input
-            placeholder={searchPlaceholder}
-            value={table.getState().globalFilter ?? ''}
-            onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className='h-8 w-[150px] lg:w-[250px]'
-          />
-        )}
-        <div className='flex gap-x-2'>
-          {filters.map((filter) => {
-            const column = table.getColumn(filter.columnId)
+    <div className='space-y-4'>
+      {/* Global Search */}
+      <div className='flex items-center justify-between'>
+        <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
+          {searchKey ? (
+            <Input
+              placeholder={searchPlaceholder}
+              value={
+                (table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
+              }
+              onChange={(event) =>
+                table.getColumn(searchKey)?.setFilterValue(event.target.value)
+              }
+              className='h-8 w-[150px] lg:w-[250px]'
+            />
+          ) : (
+            <Input
+              placeholder={searchPlaceholder}
+              value={table.getState().globalFilter ?? ''}
+              onChange={(event) => table.setGlobalFilter(event.target.value)}
+              className='h-8 w-[150px] lg:w-[250px]'
+            />
+          )}
+          <div className='flex gap-x-2'>
+            {filters.map((filter) => {
+              const column = table.getColumn(filter.columnId)
+              if (!column) return null
+              return (
+                <DataTableFacetedFilter
+                  key={filter.columnId}
+                  column={column}
+                  title={filter.title}
+                  options={filter.options}
+                />
+              )
+            })}
+          </div>
+          {isFiltered && (
+            <Button
+              variant='ghost'
+              onClick={() => {
+                table.resetColumnFilters()
+                table.setGlobalFilter('')
+              }}
+              className='h-8 px-2 lg:px-3'
+            >
+              Reset
+              <Cross2Icon className='ms-2 h-4 w-4' />
+            </Button>
+          )}
+        </div>
+        <DataTableViewOptions table={table} />
+      </div>
+
+      {/* Column-specific searches */}
+      {columnSearches.length > 0 && (
+        <div className='flex flex-wrap gap-2'>
+          {columnSearches.map((search) => {
+            const column = table.getColumn(search.columnId)
             if (!column) return null
             return (
-              <DataTableFacetedFilter
-                key={filter.columnId}
+              <DataTableColumnSearch
+                key={search.columnId}
                 column={column}
-                title={filter.title}
-                options={filter.options}
+                placeholder={search.placeholder}
               />
             )
           })}
         </div>
-        {isFiltered && (
-          <Button
-            variant='ghost'
-            onClick={() => {
-              table.resetColumnFilters()
-              table.setGlobalFilter('')
-            }}
-            className='h-8 px-2 lg:px-3'
-          >
-            Reset
-            <Cross2Icon className='ms-2 h-4 w-4' />
-          </Button>
-        )}
-      </div>
-      <DataTableViewOptions table={table} />
+      )}
     </div>
   )
 }

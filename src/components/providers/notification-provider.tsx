@@ -8,7 +8,11 @@ import { useNotificationToasts } from '@/hooks/use-notification-toasts'
  * - Toast notifications for new notifications
  * - Real-time polling
  */
-export function NotificationProvider({ children }: { children: React.ReactNode }) {
+export function NotificationProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   // Initialize both notification systems
   useNotificationBadge()
   useNotificationToasts()

@@ -119,6 +119,11 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
             options: roles.map((role) => ({ ...role })),
           },
         ]}
+        columnSearches={[
+          { columnId: 'email', placeholder: 'Search by email...' },
+          { columnId: 'fullName', placeholder: 'Search by name...' },
+          { columnId: 'phone', placeholder: 'Search by phone...' },
+        ]}
       />
       <div className='overflow-hidden rounded-md border'>
         <Table>

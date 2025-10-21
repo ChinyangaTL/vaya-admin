@@ -112,6 +112,19 @@ export const authAPI = {
     // Vaya API returns: { success: true, payload: userProfile, message }
     return response.data.payload
   },
+
+  register: async (userData: {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    password: string
+    role: 'RIDER' | 'DRIVER'
+  }) => {
+    const response = await apiClient.post('/auth/register', userData)
+    // Vaya API returns: { success: true, payload: { id, email, role }, message }
+    return response.data.payload
+  },
 }
 
 // Admin API endpoints

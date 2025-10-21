@@ -66,7 +66,25 @@ export function AdminsTable({ data }: AdminsTableProps) {
 
   return (
     <div className='space-y-4'>
-      <DataTableToolbar table={table} searchPlaceholder='Filter admins...' />
+      <DataTableToolbar 
+        table={table} 
+        searchPlaceholder='Filter admins...'
+        searchKey='email'
+        filters={[
+          {
+            columnId: 'active',
+            title: 'Status',
+            options: [
+              { label: 'Active', value: 'true' },
+              { label: 'Inactive', value: 'false' },
+            ],
+          },
+        ]}
+        columnSearches={[
+          { columnId: 'email', placeholder: 'Search by email...' },
+          { columnId: 'phone', placeholder: 'Search by phone...' },
+        ]}
+      />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
