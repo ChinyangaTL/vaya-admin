@@ -15,7 +15,29 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { getStatusInfo } from '../data/data'
+import type { WithdrawalRequest } from '../data/schema'
 import { useWithdrawals } from './withdrawals-provider'
+
+// Helper function to format payment method display
+const getPaymentMethodDisplay = (withdrawal: WithdrawalRequest): string => {
+  if (!withdrawal.paymentMethod) return 'N/A'
+
+  const pm = withdrawal.paymentMethod
+
+  switch (pm.type) {
+    case 'BANK_ACCOUNT':
+      if (pm.bank_name && pm.account_number) {
+        return `${pm.bank_name} - ${pm.account_number}`
+      }
+      return pm.name || 'Bank Account'
+    case 'FNB_PAY2CELL':
+      return `FNB Pay2Cell - ${pm.phone_number || 'N/A'}`
+    case 'ORANGE_MONEY':
+      return `Orange Money - ${pm.phone_number || 'N/A'}`
+    default:
+      return pm.name || 'N/A'
+  }
+}
 
 export function WithdrawalsViewDialog() {
   const { open, setOpen, currentWithdrawal } = useWithdrawals()
@@ -102,9 +124,9 @@ export function WithdrawalsViewDialog() {
               <div className='flex items-center gap-2'>
                 <CreditCard className='text-muted-foreground h-4 w-4' />
                 <div>
-                  <p className='text-sm font-medium'>Bank Account</p>
+                  <p className='text-sm font-medium'>Payment Method</p>
                   <p className='text-muted-foreground text-sm'>
-                    {withdrawal.bank_account || 'N/A'}
+                    {getPaymentMethodDisplay(withdrawal)}
                   </p>
                 </div>
               </div>

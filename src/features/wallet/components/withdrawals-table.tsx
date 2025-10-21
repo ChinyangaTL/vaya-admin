@@ -22,6 +22,27 @@ import { getStatusInfo } from '../data/data'
 import type { WithdrawalRequest } from '../data/schema'
 import { useWithdrawals } from './withdrawals-provider'
 
+// Helper function to format payment method display for table
+const getPaymentMethodDisplay = (withdrawal: WithdrawalRequest): string => {
+  if (!withdrawal.paymentMethod) return 'N/A'
+
+  const pm = withdrawal.paymentMethod
+
+  switch (pm.type) {
+    case 'BANK_ACCOUNT':
+      if (pm.bank_name && pm.account_number) {
+        return `${pm.bank_name} - ${pm.account_number}`
+      }
+      return pm.name || 'Bank Account'
+    case 'FNB_PAY2CELL':
+      return `FNB Pay2Cell - ${pm.phone_number || 'N/A'}`
+    case 'ORANGE_MONEY':
+      return `Orange Money - ${pm.phone_number || 'N/A'}`
+    default:
+      return pm.name || 'N/A'
+  }
+}
+
 interface WithdrawalsTableProps {
   data: WithdrawalRequest[]
   isLoading: boolean
@@ -68,7 +89,7 @@ export function WithdrawalsTable({ data, isLoading }: WithdrawalsTableProps) {
             <TableHead>Select</TableHead>
             <TableHead>User Email</TableHead>
             <TableHead>Amount</TableHead>
-            <TableHead>Bank Account</TableHead>
+            <TableHead>Payment Method</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Created</TableHead>
             <TableHead>Actions</TableHead>
@@ -94,7 +115,7 @@ export function WithdrawalsTable({ data, isLoading }: WithdrawalsTableProps) {
                   BWP {parseFloat(withdrawal.amount).toFixed(2)}
                 </TableCell>
                 <TableCell className='max-w-32 truncate'>
-                  {withdrawal.bank_account || 'N/A'}
+                  {getPaymentMethodDisplay(withdrawal)}
                 </TableCell>
                 <TableCell>
                   {(() => {

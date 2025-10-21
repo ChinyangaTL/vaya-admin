@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import { IconFacebook, IconGithub } from '@/assets/brand-icons'
+import { authAPI } from '@/lib/api-client'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,11 +17,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { PasswordInput } from '@/components/password-input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { authAPI } from '@/lib/api-client'
-import { toast } from 'sonner'
-import { useRouter } from '@tanstack/react-router'
 
 const formSchema = z
   .object({
@@ -44,7 +50,7 @@ const formSchema = z
       .min(7, 'Password must be at least 7 characters long'),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
     role: z.enum(['RIDER', 'DRIVER'], {
-      required_error: 'Please select a role',
+      message: 'Please select a role',
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -74,7 +80,7 @@ export function SignUpForm({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    
+
     try {
       await authAPI.register({
         firstName: data.firstName,
@@ -84,11 +90,12 @@ export function SignUpForm({
         password: data.password,
         role: data.role,
       })
-      
+
       toast.success('Account created successfully!')
       router.navigate({ to: '/sign-in' })
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to create account'
+      const message =
+        error.response?.data?.message || 'Failed to create account'
       toast.error(message)
     } finally {
       setIsLoading(false)

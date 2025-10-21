@@ -66,8 +66,8 @@ export function AdminsTable({ data }: AdminsTableProps) {
 
   return (
     <div className='space-y-4'>
-      <DataTableToolbar 
-        table={table} 
+      <DataTableToolbar
+        table={table}
         searchPlaceholder='Filter admins...'
         searchKey='email'
         filters={[

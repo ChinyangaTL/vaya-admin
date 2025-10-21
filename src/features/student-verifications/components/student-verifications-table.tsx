@@ -94,7 +94,10 @@ export function StudentVerificationsTable({
           { columnId: 'email', placeholder: 'Search by email...' },
           { columnId: 'phone', placeholder: 'Search by phone...' },
           { columnId: 'student_id', placeholder: 'Search by student ID...' },
-          { columnId: 'university_name', placeholder: 'Search by university...' },
+          {
+            columnId: 'university_name',
+            placeholder: 'Search by university...',
+          },
         ]}
       />
       <div className='rounded-md border'>

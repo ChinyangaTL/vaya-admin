@@ -60,11 +60,24 @@ export const depositRequestSchema = z.object({
     .optional(),
 })
 
+// Payment method schema
+export const paymentMethodSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  name: z.string(),
+  bank_name: z.string().optional(),
+  branch_code: z.string().optional(),
+  branch_name: z.string().optional(),
+  account_number: z.string().optional(),
+  phone_number: z.string().optional(),
+})
+
 // Withdrawal request schema
 export const withdrawalRequestSchema = z.object({
   id: z.string(),
   amount: z.string(),
-  bank_account: z.string(),
+  paymentMethodId: z.string(),
+  paymentMethod: paymentMethodSchema.optional(),
   status: withdrawalStatusSchema,
   admin_notes: z.string().nullable(),
   created_at: z.string(),
@@ -84,4 +97,5 @@ export type WithdrawalStatus = z.infer<typeof withdrawalStatusSchema>
 export type WalletSummary = z.infer<typeof walletSummarySchema>
 export type Transaction = z.infer<typeof transactionSchema>
 export type DepositRequest = z.infer<typeof depositRequestSchema>
+export type PaymentMethod = z.infer<typeof paymentMethodSchema>
 export type WithdrawalRequest = z.infer<typeof withdrawalRequestSchema>

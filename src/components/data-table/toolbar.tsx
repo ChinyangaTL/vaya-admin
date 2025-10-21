@@ -2,9 +2,9 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import { type Table } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { DataTableColumnSearch } from './column-search'
 import { DataTableFacetedFilter } from './faceted-filter'
 import { DataTableViewOptions } from './view-options'
-import { DataTableColumnSearch } from './column-search'
 
 type DataTableToolbarProps<TData> = {
   table: Table<TData>

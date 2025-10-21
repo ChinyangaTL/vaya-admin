@@ -16,12 +16,12 @@ export function DataTableColumnSearch<TData, TValue>({
 
   return (
     <div className='relative flex items-center'>
-      <MagnifyingGlassIcon className='absolute left-2 h-4 w-4 text-muted-foreground' />
+      <MagnifyingGlassIcon className='text-muted-foreground absolute left-2 h-4 w-4' />
       <Input
         placeholder={placeholder}
         value={filterValue}
         onChange={(event) => column.setFilterValue(event.target.value)}
-        className='h-8 w-[120px] pl-8 pr-8'
+        className='h-8 w-[120px] pr-8 pl-8'
       />
       {filterValue && (
         <Button

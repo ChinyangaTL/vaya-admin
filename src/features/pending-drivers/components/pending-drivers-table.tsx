@@ -96,7 +96,10 @@ export function PendingDriversTable({
         columnSearches={[
           { columnId: 'user.email', placeholder: 'Search by email...' },
           { columnId: 'driverName', placeholder: 'Search by name...' },
-          { columnId: 'licensePlate', placeholder: 'Search by license plate...' },
+          {
+            columnId: 'licensePlate',
+            placeholder: 'Search by license plate...',
+          },
           { columnId: 'route', placeholder: 'Search by route...' },
         ]}
       />
