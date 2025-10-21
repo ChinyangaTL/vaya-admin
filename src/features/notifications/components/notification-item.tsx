@@ -1,8 +1,8 @@
 'use client'
 
-import { formatDistanceToNow } from 'date-fns'
 import { MoreHorizontal, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { formatToBotswanaDateTimeShort } from '@/lib/date-utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -79,11 +79,9 @@ export function NotificationItem({
           {notification.message}
         </p>
 
-        <p className='text-muted-foreground mt-2 text-xs'>
-          {formatDistanceToNow(new Date(notification.createdAt), {
-            addSuffix: true,
-          })}
-        </p>
+               <p className='text-muted-foreground mt-2 text-xs'>
+                 {formatToBotswanaDateTimeShort(notification.createdAt)}
+               </p>
       </div>
 
       <DropdownMenu>

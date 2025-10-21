@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { formatDistanceToNow } from 'date-fns'
+import { formatToBotswanaDateTimeShort } from '@/lib/date-utils'
 import {
   Bell,
   BellRing,
@@ -348,18 +348,14 @@ function NotificationCard({
               {notification.message}
             </p>
 
-            <div className='text-muted-foreground flex items-center gap-4 text-xs'>
-              <span>
-                {formatDistanceToNow(new Date(notification.createdAt), {
-                  addSuffix: true,
-                })}
-              </span>
+                   <div className='text-muted-foreground flex items-center gap-4 text-xs'>
+                     <span>
+                       {formatToBotswanaDateTimeShort(notification.createdAt)}
+                     </span>
               {notification.expiresAt && (
                 <span>
                   Expires:{' '}
-                  {formatDistanceToNow(new Date(notification.expiresAt), {
-                    addSuffix: true,
-                  })}
+                  {formatToBotswanaDateTimeShort(notification.expiresAt)}
                 </span>
               )}
             </div>
