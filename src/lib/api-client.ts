@@ -264,6 +264,50 @@ export const adminAPI = {
     return response.data
   },
 
+  // Admin Notifications
+  getAdminNotifications: async (params?: {
+    limit?: number
+    offset?: number
+    unreadOnly?: boolean
+    type?: string
+  }) => {
+    const queryParams = new URLSearchParams()
+    if (params?.limit) queryParams.append('limit', params.limit.toString())
+    if (params?.offset) queryParams.append('offset', params.offset.toString())
+    if (params?.unreadOnly)
+      queryParams.append('unreadOnly', params.unreadOnly.toString())
+    if (params?.type) queryParams.append('type', params.type)
+
+    const response = await apiClient.get(
+      `/admin/notifications?${queryParams.toString()}`
+    )
+    return response.data
+  },
+
+  getAdminNotificationStats: async () => {
+    const response = await apiClient.get('/admin/notifications/stats')
+    return response.data
+  },
+
+  markNotificationAsRead: async (notificationId: string) => {
+    const response = await apiClient.put(
+      `/admin/notifications/${notificationId}/read`
+    )
+    return response.data
+  },
+
+  markAllNotificationsAsRead: async () => {
+    const response = await apiClient.put('/admin/notifications/read-all')
+    return response.data
+  },
+
+  deleteNotification: async (notificationId: string) => {
+    const response = await apiClient.delete(
+      `/admin/notifications/${notificationId}`
+    )
+    return response.data
+  },
+
   // Wallet Management
   getPendingDeposits: async (limit = 50, offset = 0) => {
     const response = await apiClient.get(
