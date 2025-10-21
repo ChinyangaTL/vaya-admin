@@ -20,7 +20,11 @@ export function Users() {
 
   const search = route.useSearch()
   const navigate = route.useNavigate()
-  const { data: users = [], isLoading, error } = useUsersQuery()
+  const { data: users = [], isLoading, error, refetch } = useUsersQuery()
+
+  const handleUsersDeleted = () => {
+    refetch()
+  }
 
   return (
     <UsersProvider>
@@ -58,7 +62,12 @@ export function Users() {
               </div>
             </div>
           ) : (
-            <UsersTable data={users} search={search} navigate={navigate} />
+            <UsersTable
+              data={users}
+              search={search}
+              navigate={navigate}
+              onUsersDeleted={handleUsersDeleted}
+            />
           )}
         </div>
       </Main>

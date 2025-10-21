@@ -15,10 +15,12 @@ import { UsersMultiDeleteDialog } from './users-multi-delete-dialog'
 
 type DataTableBulkActionsProps<TData> = {
   table: Table<TData>
+  onUsersDeleted?: () => void
 }
 
 export function DataTableBulkActions<TData>({
   table,
+  onUsersDeleted,
 }: DataTableBulkActionsProps<TData>) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const selectedRows = table.getFilteredSelectedRowModel().rows
@@ -133,6 +135,7 @@ export function DataTableBulkActions<TData>({
         table={table}
         open={showDeleteConfirm}
         onOpenChange={setShowDeleteConfirm}
+        onUsersDeleted={onUsersDeleted}
       />
     </>
   )

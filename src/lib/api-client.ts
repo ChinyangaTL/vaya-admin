@@ -277,6 +277,13 @@ export const adminAPI = {
     return response.data
   },
 
+  deleteUsers: async (userIds: string[]) => {
+    const response = await apiClient.delete('/admin/users/batch', {
+      data: { userIds },
+    })
+    return response.data
+  },
+
   // Admin Notifications
   getAdminNotifications: async (params?: {
     limit?: number
