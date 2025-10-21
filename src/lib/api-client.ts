@@ -68,13 +68,25 @@ apiClient.interceptors.response.use(
         } catch (refreshError) {
           // Refresh failed, logout user
           auth.logout()
-          window.location.href = '/sign-in'
+          // Only redirect if not already on auth pages to prevent loops
+          if (
+            !window.location.pathname.startsWith('/sign-in') &&
+            !window.location.pathname.startsWith('/sign-up')
+          ) {
+            window.location.href = '/sign-in'
+          }
           return Promise.reject(refreshError)
         }
       } else {
         // Not authenticated, redirect to login
         auth.logout()
-        window.location.href = '/sign-in'
+        // Only redirect if not already on auth pages to prevent loops
+        if (
+          !window.location.pathname.startsWith('/sign-in') &&
+          !window.location.pathname.startsWith('/sign-up')
+        ) {
+          window.location.href = '/sign-in'
+        }
       }
     }
 

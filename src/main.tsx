@@ -8,7 +8,6 @@ import {
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { useAuthStore } from '@/stores/auth-store'
 import { handleServerError } from '@/lib/handle-server-error'
 import { NotificationProvider } from './components/providers/notification-provider'
 import { DirectionProvider } from './context/direction-provider'
@@ -51,12 +50,8 @@ const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
       if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
-          toast.error('Session expired!')
-          useAuthStore.getState().auth.logout()
-          const redirect = `${router.history.location.href}`
-          router.navigate({ to: '/sign-in', search: { redirect } })
-        }
+        // Don't handle 401 errors here - let API interceptor handle them
+        // to prevent duplicate handling and redirect loops
         if (error.response?.status === 500) {
           toast.error('Internal Server Error!')
           router.navigate({ to: '/500' })

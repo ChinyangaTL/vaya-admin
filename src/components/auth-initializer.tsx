@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/auth-store'
 export function AuthInitializer() {
   const { auth } = useAuthStore()
   const hasFetched = useRef(false)
+  const isFetching = useRef(false)
 
   useEffect(() => {
     // If we have a token but no user, fetch the profile
@@ -15,11 +16,24 @@ export function AuthInitializer() {
       auth.accessToken &&
       !auth.user &&
       !auth.isLoading &&
-      !hasFetched.current
+      !hasFetched.current &&
+      !isFetching.current
     ) {
+      // Additional check: make sure we're not on auth pages to prevent loops
+      if (
+        window.location.pathname.startsWith('/sign-in') ||
+        window.location.pathname.startsWith('/sign-up')
+      ) {
+        return
+      }
+
       hasFetched.current = true
+      isFetching.current = true
+
       // Don't set loading here - let fetchProfile handle its own loading state
-      auth.fetchProfile()
+      auth.fetchProfile().finally(() => {
+        isFetching.current = false
+      })
     }
   }, [auth.accessToken, auth.user, auth.isLoading, auth.fetchProfile])
 

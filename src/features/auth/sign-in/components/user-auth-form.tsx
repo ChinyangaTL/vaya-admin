@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuthStore, type VayaUser } from '@/stores/auth-store'
@@ -43,6 +43,7 @@ export function UserAuthForm({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { auth } = useAuthStore()
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -93,14 +94,27 @@ export function UserAuthForm({
 
       toast.success(`Welcome back, ${displayName}!`)
 
+      // Debug: Log auth state after setting
+      console.log('Auth state after login:', {
+        isAuthenticated: auth.isAuthenticated,
+        hasUser: !!auth.user,
+        userRole: auth.user?.role,
+        hasToken: !!auth.accessToken,
+      })
+
       // Wait a moment for auth state to be fully updated, then navigate
       setTimeout(() => {
-        // Always go to the dashboard - ignore any redirect parameters for now
-        const targetPath = '/'
+        // Debug: Log auth state before navigation
+        console.log('Auth state before navigation:', {
+          isAuthenticated: auth.isAuthenticated,
+          hasUser: !!auth.user,
+          userRole: auth.user?.role,
+          hasToken: !!auth.accessToken,
+        })
 
-        // Use window.location to avoid any router issues
-        window.location.href = targetPath
-      }, 100)
+        // Use router navigation instead of window.location
+        navigate({ to: '/' })
+      }, 200)
     } catch (error: unknown) {
       // Handle specific error messages from Vaya API
       if (error && typeof error === 'object' && 'response' in error) {

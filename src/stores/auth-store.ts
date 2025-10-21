@@ -97,7 +97,18 @@ export const useAuthStore = create<AuthState>()((set, get) => {
           return
         }
 
+        // Prevent multiple simultaneous calls
+        if (auth.isLoading) {
+          return
+        }
+
         try {
+          // Set loading state
+          set((state) => ({
+            ...state,
+            auth: { ...state.auth, isLoading: true },
+          }))
+
           // Import authAPI dynamically to avoid circular dependency
           const { authAPI } = await import('@/lib/api-client')
           const userProfile = await authAPI.getProfile()
@@ -118,13 +129,11 @@ export const useAuthStore = create<AuthState>()((set, get) => {
               ...state.auth,
               user: completeUser,
               isAuthenticated: true,
-              // Don't change isLoading here - it should remain false
+              isLoading: false,
             },
           }))
         } catch (error) {
           // Profile fetch failed, clear auth state
-
-          // If profile fetch fails, clear auth state
           set((state) => ({
             ...state,
             auth: {
@@ -132,7 +141,7 @@ export const useAuthStore = create<AuthState>()((set, get) => {
               user: null,
               accessToken: '',
               isAuthenticated: false,
-              // Don't change isLoading here - it should remain false
+              isLoading: false,
             },
           }))
 

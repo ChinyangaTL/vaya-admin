@@ -6,26 +6,31 @@ import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 export const Route = createFileRoute('/_authenticated')({
   component: AuthenticatedLayout,
   beforeLoad: async () => {
-    const { auth } = useAuthStore.getState()
-
-    // If we have a token but no user, try to fetch the profile first
-    if (auth.accessToken && !auth.user) {
-      try {
-        await auth.fetchProfile()
-        // Wait a moment for state to update
-        await new Promise((resolve) => setTimeout(resolve, 100))
-      } catch (error) {
-        // Profile fetch failed, will be handled by access check below
-      }
-    }
-
-    // Check access after potential profile fetch
+    // Check access - AuthInitializer will handle profile fetching
     const hasAccess = validateAdminAccess()
 
+    console.log('_authenticated beforeLoad - Initial check:', {
+      hasAccess,
+      authState: useAuthStore.getState().auth,
+    })
+
     if (!hasAccess) {
-      throw redirect({
-        to: '/sign-in',
+      // Add a small delay to ensure auth state is properly set
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      // Check again after delay
+      const hasAccessAfterDelay = validateAdminAccess()
+
+      console.log('_authenticated beforeLoad - After delay check:', {
+        hasAccessAfterDelay,
+        authState: useAuthStore.getState().auth,
       })
+
+      if (!hasAccessAfterDelay) {
+        throw redirect({
+          to: '/sign-in',
+        })
+      }
     }
   },
 })
