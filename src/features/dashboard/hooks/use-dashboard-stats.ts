@@ -70,9 +70,9 @@ export function useDashboardStats() {
       const response = await adminAPI.getDashboardStats()
       return response as DashboardStats
     },
-    staleTime: 30 * 1000, // 30 seconds
+    staleTime: 5 * 60 * 1000, // 5 minutes - stats don't change frequently
     refetchOnWindowFocus: true,
-    refetchInterval: 60 * 1000, // Refetch every minute
+    refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes - much more reasonable
   })
 }
 
@@ -84,9 +84,9 @@ export function useRealtimeActivity() {
       const response = await adminAPI.getRealtimeActivity()
       return response as RealtimeActivity
     },
-    staleTime: 10 * 1000, // 10 seconds
+    staleTime: 30 * 1000, // 30 seconds
     refetchOnWindowFocus: true,
-    refetchInterval: 15 * 1000, // Refetch every 15 seconds
+    refetchInterval: 2 * 60 * 1000, // Refetch every 2 minutes - much more reasonable than 15 seconds
   })
 }
 
