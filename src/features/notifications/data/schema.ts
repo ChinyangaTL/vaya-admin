@@ -21,7 +21,7 @@ export const notificationSchema = z.object({
   type: notificationTypeSchema,
   title: z.string(),
   message: z.string(),
-  data: z.record(z.any()).optional(),
+  data: z.record(z.string(), z.any()).optional(),
   priority: notificationPrioritySchema,
   isRead: z.boolean(),
   readAt: z.string().nullable(),
@@ -33,7 +33,7 @@ export const notificationSchema = z.object({
 export const notificationStatsSchema = z.object({
   totalNotifications: z.number(),
   unreadNotifications: z.number(),
-  notificationsByType: z.record(z.number()),
+  notificationsByType: z.record(z.string(), z.number()),
   recentNotifications: z.array(notificationSchema),
 })
 

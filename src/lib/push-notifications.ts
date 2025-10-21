@@ -71,7 +71,7 @@ class PushNotificationService {
         userVisibleOnly: true,
         applicationServerKey: this.urlBase64ToUint8Array(
           process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''
-        ),
+        ) as unknown as ArrayBuffer,
       })
 
       console.log('Push subscription created:', this.subscription)
@@ -161,8 +161,9 @@ class PushNotificationService {
       silent: false,
     }
 
+    // Add vibrate property if supported
     if (data.priority === 'HIGH' || data.priority === 'URGENT') {
-      options.vibrate = [200, 100, 200]
+      ;(options as any).vibrate = [200, 100, 200]
     }
 
     new Notification(data.title, options)

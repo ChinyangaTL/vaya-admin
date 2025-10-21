@@ -63,7 +63,7 @@ export function UsersDeleteDialog({
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
       disabled={value.trim() !== currentRow.email || isDeleting}
-      loading={isDeleting}
+      isLoading={isDeleting}
       title={
         <span className='text-destructive'>
           <AlertTriangle

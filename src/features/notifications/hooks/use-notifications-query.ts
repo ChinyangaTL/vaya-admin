@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { adminAPI } from '@/lib/api-client'
 import {
-  type Notification,
   type NotificationStats,
   type NotificationsResponse,
 } from '../data/schema'
