@@ -1,8 +1,8 @@
 'use client'
 
 import { MoreHorizontal, Trash2 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { formatToBotswanaDateTimeShort } from '@/lib/date-utils'
+import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -79,9 +79,9 @@ export function NotificationItem({
           {notification.message}
         </p>
 
-               <p className='text-muted-foreground mt-2 text-xs'>
-                 {formatToBotswanaDateTimeShort(notification.createdAt)}
-               </p>
+        <p className='text-muted-foreground mt-2 text-xs'>
+          {formatToBotswanaDateTimeShort(notification.createdAt)}
+        </p>
       </div>
 
       <DropdownMenu>

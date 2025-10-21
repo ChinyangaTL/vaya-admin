@@ -5,6 +5,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { NotificationBell } from '@/features/notifications'
 import { PendingDeposits } from './components/pending-deposits'
 import { PendingWithdrawals } from './components/pending-withdrawals'
 import { TransactionDebug } from './components/transaction-debug'
@@ -17,6 +18,7 @@ export function Wallet() {
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center gap-2'>
+          <NotificationBell />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

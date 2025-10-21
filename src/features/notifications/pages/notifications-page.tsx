@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { formatToBotswanaDateTimeShort } from '@/lib/date-utils'
 import {
   Bell,
   BellRing,
@@ -8,6 +7,7 @@ import {
   MoreHorizontal,
   Trash2,
 } from 'lucide-react'
+import { formatToBotswanaDateTimeShort } from '@/lib/date-utils'
 import { usePageTitle } from '@/hooks/use-page-title'
 import { usePushNotifications } from '@/hooks/use-push-notifications'
 import { Badge } from '@/components/ui/badge'
@@ -348,10 +348,10 @@ function NotificationCard({
               {notification.message}
             </p>
 
-                   <div className='text-muted-foreground flex items-center gap-4 text-xs'>
-                     <span>
-                       {formatToBotswanaDateTimeShort(notification.createdAt)}
-                     </span>
+            <div className='text-muted-foreground flex items-center gap-4 text-xs'>
+              <span>
+                {formatToBotswanaDateTimeShort(notification.createdAt)}
+              </span>
               {notification.expiresAt && (
                 <span>
                   Expires:{' '}
