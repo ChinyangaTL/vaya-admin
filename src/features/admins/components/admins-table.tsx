@@ -22,7 +22,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { Admin } from '../data/schema'
+import type { Admin } from '../data/schema'
 import { adminsColumns as columns } from './admins-columns'
 
 type AdminsTableProps = {
@@ -97,9 +97,7 @@ export function AdminsTable({ data }: AdminsTableProps) {
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={cn(
-                        cell.column.columnDef.meta?.className
-                      )}
+                      className={cn(cell.column.columnDef.meta?.className)}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
