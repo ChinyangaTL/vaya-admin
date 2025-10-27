@@ -13,6 +13,7 @@ import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedStudentVerificationsRouteImport } from './routes/_authenticated/student-verifications'
+import { Route as AuthenticatedQueueMonitoringRouteImport } from './routes/_authenticated/queue-monitoring'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -27,6 +28,7 @@ import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_aut
 import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedWalletIndexRouteImport } from './routes/_authenticated/wallet/index'
+import { Route as AuthenticatedWalletTrackingIndexRouteImport } from './routes/_authenticated/wallet-tracking/index'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedStudentVerificationsIndexRouteImport } from './routes/_authenticated/student-verifications/index'
@@ -65,6 +67,12 @@ const AuthenticatedStudentVerificationsRoute =
   AuthenticatedStudentVerificationsRouteImport.update({
     id: '/student-verifications',
     path: '/student-verifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedQueueMonitoringRoute =
+  AuthenticatedQueueMonitoringRouteImport.update({
+    id: '/queue-monitoring',
+    path: '/queue-monitoring',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const errors503Route = errors503RouteImport.update({
@@ -135,6 +143,12 @@ const AuthenticatedWalletIndexRoute =
   AuthenticatedWalletIndexRouteImport.update({
     id: '/wallet/',
     path: '/wallet/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedWalletTrackingIndexRoute =
+  AuthenticatedWalletTrackingIndexRouteImport.update({
+    id: '/wallet-tracking/',
+    path: '/wallet-tracking/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
@@ -249,7 +263,6 @@ const AuthenticatedErrorsErrorRoute =
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
-  '/clerk/': typeof ClerkauthRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -260,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/queue-monitoring': typeof AuthenticatedQueueMonitoringRoute
   '/student-verifications': typeof AuthenticatedStudentVerificationsRouteWithChildren
   '/': typeof AuthenticatedIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -281,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/wallet-tracking': typeof AuthenticatedWalletTrackingIndexRoute
   '/wallet': typeof AuthenticatedWalletIndexRoute
 }
 export interface FileRoutesByTo {
@@ -295,6 +310,7 @@ export interface FileRoutesByTo {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/queue-monitoring': typeof AuthenticatedQueueMonitoringRoute
   '/': typeof AuthenticatedIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -315,6 +331,7 @@ export interface FileRoutesByTo {
   '/student-verifications': typeof AuthenticatedStudentVerificationsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/wallet-tracking': typeof AuthenticatedWalletTrackingIndexRoute
   '/wallet': typeof AuthenticatedWalletIndexRoute
 }
 export interface FileRoutesById {
@@ -334,6 +351,7 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/_authenticated/queue-monitoring': typeof AuthenticatedQueueMonitoringRoute
   '/_authenticated/student-verifications': typeof AuthenticatedStudentVerificationsRouteWithChildren
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -355,6 +373,7 @@ export interface FileRoutesById {
   '/_authenticated/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/wallet-tracking/': typeof AuthenticatedWalletTrackingIndexRoute
   '/_authenticated/wallet/': typeof AuthenticatedWalletIndexRoute
 }
 export interface FileRouteTypes {
@@ -362,7 +381,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/clerk'
     | '/settings'
-    | '/clerk/'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -373,6 +391,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/queue-monitoring'
     | '/student-verifications'
     | '/'
     | '/errors/$error'
@@ -394,6 +413,7 @@ export interface FileRouteTypes {
     | '/student-verifications/'
     | '/tasks'
     | '/users'
+    | '/wallet-tracking'
     | '/wallet'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -408,6 +428,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/queue-monitoring'
     | '/'
     | '/errors/$error'
     | '/settings/account'
@@ -428,6 +449,7 @@ export interface FileRouteTypes {
     | '/student-verifications'
     | '/tasks'
     | '/users'
+    | '/wallet-tracking'
     | '/wallet'
   id:
     | '__root__'
@@ -446,6 +468,7 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/_authenticated/queue-monitoring'
     | '/_authenticated/student-verifications'
     | '/_authenticated/'
     | '/_authenticated/errors/$error'
@@ -467,6 +490,7 @@ export interface FileRouteTypes {
     | '/_authenticated/student-verifications/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/wallet-tracking/'
     | '/_authenticated/wallet/'
   fileRoutesById: FileRoutesById
 }
@@ -513,6 +537,13 @@ declare module '@tanstack/react-router' {
       path: '/student-verifications'
       fullPath: '/student-verifications'
       preLoaderRoute: typeof AuthenticatedStudentVerificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/queue-monitoring': {
+      id: '/_authenticated/queue-monitoring'
+      path: '/queue-monitoring'
+      fullPath: '/queue-monitoring'
+      preLoaderRoute: typeof AuthenticatedQueueMonitoringRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/(errors)/503': {
@@ -594,8 +625,8 @@ declare module '@tanstack/react-router' {
     }
     '/clerk/(auth)': {
       id: '/clerk/(auth)'
-      path: '/'
-      fullPath: '/clerk/'
+      path: ''
+      fullPath: '/clerk'
       preLoaderRoute: typeof ClerkauthRouteRouteImport
       parentRoute: typeof ClerkRouteRoute
     }
@@ -611,6 +642,13 @@ declare module '@tanstack/react-router' {
       path: '/wallet'
       fullPath: '/wallet'
       preLoaderRoute: typeof AuthenticatedWalletIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/wallet-tracking/': {
+      id: '/_authenticated/wallet-tracking/'
+      path: '/wallet-tracking'
+      fullPath: '/wallet-tracking'
+      preLoaderRoute: typeof AuthenticatedWalletTrackingIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/users/': {
@@ -789,6 +827,7 @@ const AuthenticatedStudentVerificationsRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedQueueMonitoringRoute: typeof AuthenticatedQueueMonitoringRoute
   AuthenticatedStudentVerificationsRoute: typeof AuthenticatedStudentVerificationsRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
@@ -801,11 +840,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPendingDriversIndexRoute: typeof AuthenticatedPendingDriversIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedWalletTrackingIndexRoute: typeof AuthenticatedWalletTrackingIndexRoute
   AuthenticatedWalletIndexRoute: typeof AuthenticatedWalletIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedQueueMonitoringRoute: AuthenticatedQueueMonitoringRoute,
   AuthenticatedStudentVerificationsRoute:
     AuthenticatedStudentVerificationsRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
@@ -819,6 +860,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPendingDriversIndexRoute: AuthenticatedPendingDriversIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedWalletTrackingIndexRoute: AuthenticatedWalletTrackingIndexRoute,
   AuthenticatedWalletIndexRoute: AuthenticatedWalletIndexRoute,
 }
 

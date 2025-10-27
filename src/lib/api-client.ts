@@ -296,6 +296,74 @@ export const adminAPI = {
     return response.data
   },
 
+  // User search
+  searchUserByEmail: async (email: string) => {
+    const response = await apiClient.get(
+      `/admin/users/search/email?email=${encodeURIComponent(email)}`
+    )
+    return response.data.payload
+  },
+
+  searchUserByPhone: async (phone: string) => {
+    const response = await apiClient.get(
+      `/admin/users/search/phone?phone=${encodeURIComponent(phone)}`
+    )
+    return response.data.payload
+  },
+
+  // Admin wallet tracking
+  getAdminUserWalletSummary: async (userId: string) => {
+    const response = await apiClient.get(
+      `/api/wallet/admin/users/${userId}/summary`
+    )
+    return response.data.data
+  },
+
+  getAdminUserTransactionHistory: async (
+    userId: string,
+    filters?: {
+      limit?: number
+      offset?: number
+      type?: string
+      date_from?: string
+      date_to?: string
+    }
+  ) => {
+    const params = new URLSearchParams()
+    if (filters?.limit) params.append('limit', filters.limit.toString())
+    if (filters?.offset) params.append('offset', filters.offset.toString())
+    if (filters?.type) params.append('type', filters.type)
+    if (filters?.date_from) params.append('date_from', filters.date_from)
+    if (filters?.date_to) params.append('date_to', filters.date_to)
+
+    const response = await apiClient.get(
+      `/api/wallet/admin/users/${userId}/transactions?${params.toString()}`
+    )
+    return response.data.data
+  },
+
+  getAdminUserDepositHistory: async (
+    userId: string,
+    limit = 50,
+    offset = 0
+  ) => {
+    const response = await apiClient.get(
+      `/api/wallet/admin/users/${userId}/deposits?limit=${limit}&offset=${offset}`
+    )
+    return response.data.data
+  },
+
+  getAdminUserWithdrawalHistory: async (
+    userId: string,
+    limit = 50,
+    offset = 0
+  ) => {
+    const response = await apiClient.get(
+      `/api/wallet/admin/users/${userId}/withdrawals?limit=${limit}&offset=${offset}`
+    )
+    return response.data.data
+  },
+
   // Admin Notifications
   getAdminNotifications: async (params?: {
     limit?: number
@@ -436,6 +504,73 @@ export const adminAPI = {
   getTripStats: async (driverId: string) => {
     const response = await apiClient.get(`/api/trips/stats/driver/${driverId}`)
     return response.data
+  },
+
+  // Queue Monitoring
+  getQueueStats: async () => {
+    const response = await apiClient.get('/admin/queues/stats')
+    return response.data.data
+  },
+
+  getQueueStatsByName: async (queueName: string) => {
+    const response = await apiClient.get(`/admin/queues/${queueName}/stats`)
+    return response.data.data
+  },
+
+  pauseQueue: async (queueName: string) => {
+    const response = await apiClient.post(`/admin/queues/${queueName}/pause`)
+    return response.data.data
+  },
+
+  resumeQueue: async (queueName: string) => {
+    const response = await apiClient.post(`/admin/queues/${queueName}/resume`)
+    return response.data.data
+  },
+
+  clearQueue: async (queueName: string) => {
+    const response = await apiClient.delete(`/admin/queues/${queueName}/clear`)
+    return response.data.data
+  },
+
+  getSystemHealth: async () => {
+    const response = await apiClient.get('/admin/queues/health')
+    return response.data.data
+  },
+
+  // Failed Job Management
+  getFailedJobs: async (queueName: string, limit = 50, offset = 0) => {
+    const response = await apiClient.get(
+      `/admin/queues/${queueName}/failed?limit=${limit}&offset=${offset}`
+    )
+    return response.data.data
+  },
+
+  retryFailedJob: async (queueName: string, jobId: string) => {
+    const response = await apiClient.post(
+      `/admin/queues/${queueName}/jobs/${jobId}/retry`
+    )
+    return response.data.data
+  },
+
+  retryAllFailedJobs: async (queueName: string) => {
+    const response = await apiClient.post(
+      `/admin/queues/${queueName}/failed/retry-all`
+    )
+    return response.data.data
+  },
+
+  removeFailedJob: async (queueName: string, jobId: string) => {
+    const response = await apiClient.delete(
+      `/admin/queues/${queueName}/jobs/${jobId}/remove`
+    )
+    return response.data.data
+  },
+
+  getJobDetails: async (queueName: string, jobId: string) => {
+    const response = await apiClient.get(
+      `/admin/queues/${queueName}/jobs/${jobId}`
+    )
+    return response.data.data
   },
 }
 

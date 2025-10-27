@@ -16,6 +16,7 @@ import {
   Wallet,
   GraduationCap,
   Shield,
+  Search,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
@@ -80,6 +81,11 @@ export const sidebarData: SidebarData = {
           title: 'Wallet',
           url: '/wallet',
           icon: Wallet,
+        },
+        {
+          title: 'Wallet Tracking',
+          url: '/wallet-tracking',
+          icon: Search,
         },
         {
           title: 'Admins',

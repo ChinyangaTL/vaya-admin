@@ -9,6 +9,7 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { NotificationBell } from '@/features/notifications'
+import { QueueMonitoring } from '@/features/queue-monitoring/components/queue-monitoring'
 import { MetricCards } from './components/metric-cards'
 import { RecentTransactions } from './components/recent-transactions'
 import { RevenueChart } from './components/revenue-chart'
@@ -95,6 +96,9 @@ export function Dashboard() {
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
+              <TabsTrigger value='queue-monitoring'>
+                Queue Monitoring
+              </TabsTrigger>
               <TabsTrigger value='analytics' disabled>
                 Analytics
               </TabsTrigger>
@@ -113,6 +117,9 @@ export function Dashboard() {
               <RevenueChart stats={stats} />
               <RecentTransactions stats={stats} />
             </div>
+          </TabsContent>
+          <TabsContent value='queue-monitoring' className='space-y-4'>
+            <QueueMonitoring />
           </TabsContent>
           <TabsContent value='notifications' className='space-y-4'>
             <div className='flex items-center justify-center py-8'>
