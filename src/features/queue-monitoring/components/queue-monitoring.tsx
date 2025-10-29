@@ -195,17 +195,6 @@ export function QueueMonitoring() {
     return () => clearInterval(interval)
   }, [])
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'healthy':
-        return 'text-green-600'
-      case 'degraded':
-        return 'text-yellow-600'
-      default:
-        return 'text-gray-600'
-    }
-  }
-
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'healthy':

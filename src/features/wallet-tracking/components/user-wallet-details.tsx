@@ -3,12 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 import {
   Wallet,
   TrendingUp,
-  TrendingDown,
   History,
   ArrowUpRight,
   ArrowDownLeft,
   RefreshCw,
-  Calendar,
   Filter,
 } from 'lucide-react'
 import { adminAPI } from '@/lib/api-client'

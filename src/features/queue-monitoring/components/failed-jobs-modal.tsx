@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import {
   AlertTriangle,
-  Clock,
   RotateCcw,
   Trash2,
   Eye,
   RefreshCw,
   XCircle,
+  CheckCircle,
 } from 'lucide-react'
 import { adminAPI } from '@/lib/api-client'
 import { useToast } from '@/hooks/use-toast'
@@ -460,5 +460,6 @@ export function FailedJobsModal({
     </Dialog>
   )
 }
+
 
 
