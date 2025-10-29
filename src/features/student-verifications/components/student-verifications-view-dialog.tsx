@@ -184,7 +184,12 @@ export function StudentVerificationsViewDialog() {
                 <div>
                   <p className='text-sm font-medium'>Registered</p>
                   <p className='text-muted-foreground text-sm'>
-                    {currentStudent.created_at.toLocaleDateString()}
+                    {currentStudent.created_at
+                      ? (currentStudent.created_at instanceof Date
+                          ? currentStudent.created_at
+                          : new Date(currentStudent.created_at)
+                        ).toLocaleDateString()
+                      : 'Unknown'}
                   </p>
                 </div>
               </div>
@@ -197,7 +202,10 @@ export function StudentVerificationsViewDialog() {
                       Verification Submitted
                     </p>
                     <p className='text-muted-foreground text-sm'>
-                      {currentStudent.verification_submitted_at.toLocaleDateString()}
+                      {(currentStudent.verification_submitted_at instanceof Date
+                        ? currentStudent.verification_submitted_at
+                        : new Date(currentStudent.verification_submitted_at)
+                      ).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
