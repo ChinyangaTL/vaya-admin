@@ -31,7 +31,7 @@ interface Transaction {
 interface TransactionTableProps {
   transactions: Transaction[]
   isLoading: boolean
-  error: any
+  error: Error | null
 }
 
 export function TransactionTable({

@@ -25,6 +25,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ErrorDisplay } from '@/components/error-display'
 import { useWalletTrackingStore } from '../stores/wallet-tracking-store'
 
+interface User {
+  id: string
+  email: string
+  phone?: string
+  role: string
+  first_name?: string
+  last_name?: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
 export function UserSearch() {
   const [emailSearch, setEmailSearch] = useState('')
   const [phoneSearch, setPhoneSearch] = useState('')
@@ -64,7 +76,7 @@ export function UserSearch() {
     }
   }
 
-  const handleUserSelect = (user: any) => {
+  const handleUserSelect = (user: User) => {
     setSelectedUser(user)
   }
 

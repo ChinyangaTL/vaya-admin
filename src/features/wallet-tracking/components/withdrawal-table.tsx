@@ -30,7 +30,7 @@ interface WithdrawalRequest {
 interface WithdrawalTableProps {
   withdrawals: WithdrawalRequest[]
   isLoading: boolean
-  error: any
+  error: Error | null
 }
 
 export function WithdrawalTable({

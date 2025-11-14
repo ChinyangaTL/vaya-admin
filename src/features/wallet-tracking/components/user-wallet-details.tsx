@@ -101,13 +101,6 @@ export function UserWalletDetails() {
     refetchWithdrawals()
   }
 
-  const formatCurrency = (amount: string) => {
-    return new Intl.NumberFormat('en-BW', {
-      style: 'currency',
-      currency: 'BWP',
-    }).format(parseFloat(amount))
-  }
-
   const getRoleBadgeVariant = (role: string) => {
     switch (role) {
       case 'ADMIN':

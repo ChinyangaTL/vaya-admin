@@ -31,7 +31,7 @@ interface DepositRequest {
 interface DepositTableProps {
   deposits: DepositRequest[]
   isLoading: boolean
-  error: any
+  error: Error | null
 }
 
 export function DepositTable({
