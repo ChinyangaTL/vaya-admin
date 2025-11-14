@@ -200,7 +200,7 @@ export function UserWalletDetails() {
           </CardHeader>
           <CardContent>
             <div className='text-3xl font-bold text-green-600'>
-              {formatCurrency(walletSummary.formatted_balance)}
+              {walletSummary.formatted_balance}
             </div>
             <p className='text-muted-foreground mt-1 text-sm'>
               Raw balance: {walletSummary.balance} {walletSummary.currency}
