@@ -314,7 +314,7 @@ export const adminAPI = {
   // Admin wallet tracking
   getAdminUserWalletSummary: async (userId: string) => {
     const response = await apiClient.get(
-      `/api/wallet/admin/users/${userId}/summary`
+      `/admin/wallet/users/${userId}/summary`
     )
     return response.data.data
   },
@@ -337,7 +337,7 @@ export const adminAPI = {
     if (filters?.date_to) params.append('date_to', filters.date_to)
 
     const response = await apiClient.get(
-      `/api/wallet/admin/users/${userId}/transactions?${params.toString()}`
+      `/admin/wallet/users/${userId}/transactions?${params.toString()}`
     )
     return response.data.data
   },
@@ -348,7 +348,7 @@ export const adminAPI = {
     offset = 0
   ) => {
     const response = await apiClient.get(
-      `/api/wallet/admin/users/${userId}/deposits?limit=${limit}&offset=${offset}`
+      `/admin/wallet/users/${userId}/deposits?limit=${limit}&offset=${offset}`
     )
     return response.data.data
   },
@@ -359,7 +359,7 @@ export const adminAPI = {
     offset = 0
   ) => {
     const response = await apiClient.get(
-      `/api/wallet/admin/users/${userId}/withdrawals?limit=${limit}&offset=${offset}`
+      `/admin/wallet/users/${userId}/withdrawals?limit=${limit}&offset=${offset}`
     )
     return response.data.data
   },

@@ -148,52 +148,50 @@ export function UserSearch() {
               )}
 
               {emailUser && (
-                <Card className='border-green-200 bg-green-50'>
-                  <CardContent className='pt-6'>
-                    <div className='flex items-start justify-between'>
-                      <div className='space-y-2'>
-                        <div className='flex items-center gap-2'>
-                          <User className='h-4 w-4 text-green-600' />
-                          <span className='font-medium text-green-900'>
-                            {emailUser.first_name && emailUser.last_name
-                              ? `${emailUser.first_name} ${emailUser.last_name}`
-                              : emailUser.email}
-                          </span>
-                          <Badge variant={getRoleBadgeVariant(emailUser.role)}>
-                            {emailUser.role}
-                          </Badge>
-                        </div>
-                        <div className='text-sm text-green-700'>
-                          <div className='flex items-center gap-1'>
-                            <Mail className='h-3 w-3' />
-                            {emailUser.email}
+                <div
+                  className='cursor-pointer rounded-lg border border-green-200 bg-green-50 hover:bg-green-100'
+                  onClick={() => handleUserSelect(emailUser)}
+                >
+                  <Card className='border-transparent bg-transparent shadow-none'>
+                    <CardContent className='pt-6'>
+                      <div className='flex items-start justify-between'>
+                        <div className='space-y-2'>
+                          <div className='flex items-center gap-2'>
+                            <User className='h-4 w-4 text-green-600' />
+                            <span className='font-medium text-green-900'>
+                              {emailUser.first_name && emailUser.last_name
+                                ? `${emailUser.first_name} ${emailUser.last_name}`
+                                : emailUser.email}
+                            </span>
+                            <Badge variant={getRoleBadgeVariant(emailUser.role)}>
+                              {emailUser.role}
+                            </Badge>
                           </div>
-                          {emailUser.phone && (
+                          <div className='text-sm text-green-700'>
                             <div className='flex items-center gap-1'>
-                              <Phone className='h-3 w-3' />
-                              {emailUser.phone}
+                              <Mail className='h-3 w-3' />
+                              {emailUser.email}
                             </div>
-                          )}
-                          <div className='flex items-center gap-1'>
-                            <Calendar className='h-3 w-3' />
-                            Joined {formatDate(emailUser.created_at)}
-                          </div>
-                          <div className='flex items-center gap-1'>
-                            <Shield className='h-3 w-3' />
-                            {emailUser.is_active ? 'Active' : 'Inactive'}
+                            {emailUser.phone && (
+                              <div className='flex items-center gap-1'>
+                                <Phone className='h-3 w-3' />
+                                {emailUser.phone}
+                              </div>
+                            )}
+                            <div className='flex items-center gap-1'>
+                              <Calendar className='h-3 w-3' />
+                              Joined {formatDate(emailUser.created_at)}
+                            </div>
+                            <div className='flex items-center gap-1'>
+                              <Shield className='h-3 w-3' />
+                              {emailUser.is_active ? 'Active' : 'Inactive'}
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <Button
-                        variant='outline'
-                        size='sm'
-                        onClick={() => handleUserSelect(emailUser)}
-                      >
-                        View Wallet
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </div>
               )}
             </CardContent>
           </Card>
@@ -246,52 +244,50 @@ export function UserSearch() {
               )}
 
               {phoneUser && (
-                <Card className='border-green-200 bg-green-50'>
-                  <CardContent className='pt-6'>
-                    <div className='flex items-start justify-between'>
-                      <div className='space-y-2'>
-                        <div className='flex items-center gap-2'>
-                          <User className='h-4 w-4 text-green-600' />
-                          <span className='font-medium text-green-900'>
-                            {phoneUser.first_name && phoneUser.last_name
-                              ? `${phoneUser.first_name} ${phoneUser.last_name}`
-                              : phoneUser.email}
-                          </span>
-                          <Badge variant={getRoleBadgeVariant(phoneUser.role)}>
-                            {phoneUser.role}
-                          </Badge>
-                        </div>
-                        <div className='text-sm text-green-700'>
-                          <div className='flex items-center gap-1'>
-                            <Mail className='h-3 w-3' />
-                            {phoneUser.email}
+                <div
+                  className='cursor-pointer rounded-lg border border-green-200 bg-green-50 hover:bg-green-100'
+                  onClick={() => handleUserSelect(phoneUser)}
+                >
+                  <Card className='border-transparent bg-transparent shadow-none'>
+                    <CardContent className='pt-6'>
+                      <div className='flex items-start justify-between'>
+                        <div className='space-y-2'>
+                          <div className='flex items-center gap-2'>
+                            <User className='h-4 w-4 text-green-600' />
+                            <span className='font-medium text-green-900'>
+                              {phoneUser.first_name && phoneUser.last_name
+                                ? `${phoneUser.first_name} ${phoneUser.last_name}`
+                                : phoneUser.email}
+                            </span>
+                            <Badge variant={getRoleBadgeVariant(phoneUser.role)}>
+                              {phoneUser.role}
+                            </Badge>
                           </div>
-                          {phoneUser.phone && (
+                          <div className='text-sm text-green-700'>
                             <div className='flex items-center gap-1'>
-                              <Phone className='h-3 w-3' />
-                              {phoneUser.phone}
+                              <Mail className='h-3 w-3' />
+                              {phoneUser.email}
                             </div>
-                          )}
-                          <div className='flex items-center gap-1'>
-                            <Calendar className='h-3 w-3' />
-                            Joined {formatDate(phoneUser.created_at)}
-                          </div>
-                          <div className='flex items-center gap-1'>
-                            <Shield className='h-3 w-3' />
-                            {phoneUser.is_active ? 'Active' : 'Inactive'}
+                            {phoneUser.phone && (
+                              <div className='flex items-center gap-1'>
+                                <Phone className='h-3 w-3' />
+                                {phoneUser.phone}
+                              </div>
+                            )}
+                            <div className='flex items-center gap-1'>
+                              <Calendar className='h-3 w-3' />
+                              Joined {formatDate(phoneUser.created_at)}
+                            </div>
+                            <div className='flex items-center gap-1'>
+                              <Shield className='h-3 w-3' />
+                              {phoneUser.is_active ? 'Active' : 'Inactive'}
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <Button
-                        variant='outline'
-                        size='sm'
-                        onClick={() => handleUserSelect(phoneUser)}
-                      >
-                        View Wallet
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </div>
               )}
             </CardContent>
           </Card>

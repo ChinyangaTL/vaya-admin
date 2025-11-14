@@ -8,9 +8,26 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { NotificationBell } from '@/features/notifications'
 import { UserSearch } from './components/user-search'
 import { UserWalletDetails } from './components/user-wallet-details'
+import { useWalletTrackingStore } from './stores/wallet-tracking-store'
+import { useEffect, useState } from 'react'
 
 export function WalletTracking() {
   usePageTitle('Wallet Tracking')
+  const [activeTab, setActiveTab] = useState('search')
+  const { selectedUser, clearSelectedUser } = useWalletTrackingStore()
+
+  useEffect(() => {
+    if (selectedUser) {
+      setActiveTab('details')
+    }
+  }, [selectedUser])
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value)
+    if (value === 'search') {
+      clearSelectedUser()
+    }
+  }
 
   return (
     <>
@@ -34,7 +51,12 @@ export function WalletTracking() {
           </p>
         </div>
 
-        <Tabs defaultValue='search' className='space-y-6'>
+        <Tabs
+          defaultValue='search'
+          className='space-y-6'
+          value={activeTab}
+          onValueChange={handleTabChange}
+        >
           <TabsList className='grid w-full grid-cols-2'>
             <TabsTrigger value='search'>Search Users</TabsTrigger>
             <TabsTrigger value='details'>Wallet Details</TabsTrigger>
