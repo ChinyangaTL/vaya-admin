@@ -40,7 +40,7 @@ export function UserWalletDetails() {
   const [transactionFilters, setTransactionFilters] = useState({
     limit: 50,
     offset: 0,
-    type: '',
+    type: undefined as string | undefined,
     date_from: '',
     date_to: '',
   })
@@ -222,7 +222,7 @@ export function UserWalletDetails() {
             <div>
               <Label htmlFor='transaction-type'>Transaction Type</Label>
               <Select
-                value={transactionFilters.type}
+                value={transactionFilters.type || undefined}
                 onValueChange={(value) =>
                   setTransactionFilters((prev) => ({ ...prev, type: value }))
                 }
@@ -231,7 +231,6 @@ export function UserWalletDetails() {
                   <SelectValue placeholder='All types' />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value=''>All types</SelectItem>
                   <SelectItem value='DEPOSIT'>Deposit</SelectItem>
                   <SelectItem value='WITHDRAWAL'>Withdrawal</SelectItem>
                   <SelectItem value='TRIP_PAYMENT'>Trip Payment</SelectItem>
