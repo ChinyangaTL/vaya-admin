@@ -1,6 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { type Row } from '@tanstack/react-table'
-import { Trash2, UserPen, Shield } from 'lucide-react'
+import { Trash2, UserPen, Shield, Key } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -52,6 +52,17 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             Change Role
             <DropdownMenuShortcut>
               <Shield size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(row.original)
+              setOpen('resetPassword')
+            }}
+          >
+            Reset Password
+            <DropdownMenuShortcut>
+              <Key size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

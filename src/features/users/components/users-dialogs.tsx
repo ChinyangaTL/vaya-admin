@@ -3,6 +3,7 @@ import { UsersActionDialog } from './users-action-dialog'
 import { UsersChangeRoleDialog } from './users-change-role-dialog'
 import { UsersDeleteDialog } from './users-delete-dialog'
 import { UsersInviteDialog } from './users-invite-dialog'
+import { UsersResetPasswordDialog } from './users-reset-password-dialog'
 import { useUsers } from './users-provider'
 
 export function UsersDialogs() {
@@ -42,6 +43,8 @@ export function UsersDialogs() {
           />
 
           <UsersChangeRoleDialog />
+
+          <UsersResetPasswordDialog />
 
           <UsersDeleteDialog
             key={`user-delete-${currentRow.id}`}

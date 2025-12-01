@@ -311,6 +311,13 @@ export const adminAPI = {
     return response.data.payload
   },
 
+  resetUserPassword: async (userId: string, newPassword: string) => {
+    const response = await apiClient.put(`/admin/users/${userId}/reset-password`, {
+      newPassword,
+    })
+    return response.data
+  },
+
   // Admin wallet tracking
   getAdminUserWalletSummary: async (userId: string) => {
     const response = await apiClient.get(
