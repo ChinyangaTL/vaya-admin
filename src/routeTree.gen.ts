@@ -38,6 +38,7 @@ import { Route as AuthenticatedNotificationsIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedDriversIndexRouteImport } from './routes/_authenticated/drivers/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedBugReportsIndexRouteImport } from './routes/_authenticated/bug-reports/index'
 import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedAdminsIndexRouteImport } from './routes/_authenticated/admins/index'
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
@@ -202,6 +203,12 @@ const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   path: '/chats/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBugReportsIndexRoute =
+  AuthenticatedBugReportsIndexRouteImport.update({
+    id: '/bug-reports/',
+    path: '/bug-reports/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
   id: '/apps/',
   path: '/apps/',
@@ -287,6 +294,7 @@ export interface FileRoutesByFullPath {
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/admins': typeof AuthenticatedAdminsIndexRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/bug-reports': typeof AuthenticatedBugReportsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -323,6 +331,7 @@ export interface FileRoutesByTo {
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/admins': typeof AuthenticatedAdminsIndexRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/bug-reports': typeof AuthenticatedBugReportsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -365,6 +374,7 @@ export interface FileRoutesById {
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/_authenticated/admins/': typeof AuthenticatedAdminsIndexRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
+  '/_authenticated/bug-reports/': typeof AuthenticatedBugReportsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/drivers/': typeof AuthenticatedDriversIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
@@ -406,6 +416,7 @@ export interface FileRouteTypes {
     | '/clerk/user-management'
     | '/admins'
     | '/apps'
+    | '/bug-reports'
     | '/chats'
     | '/drivers'
     | '/help-center'
@@ -442,6 +453,7 @@ export interface FileRouteTypes {
     | '/clerk/user-management'
     | '/admins'
     | '/apps'
+    | '/bug-reports'
     | '/chats'
     | '/drivers'
     | '/help-center'
@@ -483,6 +495,7 @@ export interface FileRouteTypes {
     | '/clerk/_authenticated/user-management'
     | '/_authenticated/admins/'
     | '/_authenticated/apps/'
+    | '/_authenticated/bug-reports/'
     | '/_authenticated/chats/'
     | '/_authenticated/drivers/'
     | '/_authenticated/help-center/'
@@ -716,6 +729,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/bug-reports/': {
+      id: '/_authenticated/bug-reports/'
+      path: '/bug-reports'
+      fullPath: '/bug-reports'
+      preLoaderRoute: typeof AuthenticatedBugReportsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/apps/': {
       id: '/_authenticated/apps/'
       path: '/apps'
@@ -835,6 +855,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAdminsIndexRoute: typeof AuthenticatedAdminsIndexRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
+  AuthenticatedBugReportsIndexRoute: typeof AuthenticatedBugReportsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedDriversIndexRoute: typeof AuthenticatedDriversIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
@@ -855,6 +876,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAdminsIndexRoute: AuthenticatedAdminsIndexRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
+  AuthenticatedBugReportsIndexRoute: AuthenticatedBugReportsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedDriversIndexRoute: AuthenticatedDriversIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
