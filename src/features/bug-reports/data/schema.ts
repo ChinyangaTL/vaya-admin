@@ -8,7 +8,7 @@ const bugReportAttachmentSchema = z.object({
 })
 
 // Bug Report Schema
-const bugReportSchema = z.object({
+export const bugReportSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string(),

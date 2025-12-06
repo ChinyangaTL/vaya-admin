@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -10,6 +10,7 @@ import {
   useReactTable,
   type SortingState,
   type VisibilityState,
+  type ColumnFiltersState,
 } from '@tanstack/react-table'
 import {
   Table,
@@ -19,8 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { DataTablePagination } from '@/components/data-table'
-import { DataTableToolbar } from '@/components/data-table'
+import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { bugReportsColumns } from './bug-reports-columns'
 import { type BugReport } from '../data/schema'
 
@@ -32,7 +32,7 @@ export function BugReportsTable({ data }: BugReportsTableProps) {
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = useState([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,

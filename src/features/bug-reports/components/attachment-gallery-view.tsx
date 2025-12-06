@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { ChevronLeft, ChevronRight, Video, Loader2, Maximize2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader2, Maximize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { adminAPI } from '@/lib/api-client'
 import { AttachmentGallery } from './attachment-gallery'
