@@ -2,7 +2,8 @@ import axios, { type AxiosInstance } from 'axios'
 import { useAuthStore } from '@/stores/auth-store'
 
 // API Configuration - Using production URL for admin dashboard
-const API_BASE_URL = 'https://api.vaya-luyten.com/api'
+const API_BASE_URL = 'http://localhost:3000/api'
+// const API_BASE_URL = 'https://api.vaya-luyten.com/api'
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -312,9 +313,12 @@ export const adminAPI = {
   },
 
   resetUserPassword: async (userId: string, newPassword: string) => {
-    const response = await apiClient.put(`/admin/users/${userId}/reset-password`, {
-      newPassword,
-    })
+    const response = await apiClient.put(
+      `/admin/users/${userId}/reset-password`,
+      {
+        newPassword,
+      }
+    )
     return response.data
   },
 
@@ -578,6 +582,50 @@ export const adminAPI = {
       `/admin/queues/${queueName}/jobs/${jobId}`
     )
     return response.data.data
+  },
+
+  // Bug Report Management
+  getBugReports: async (params?: {
+    status?: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED'
+    severity?: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
+    limit?: number
+    offset?: number
+  }) => {
+    const queryParams = new URLSearchParams()
+    if (params?.status) queryParams.append('status', params.status)
+    if (params?.severity) queryParams.append('severity', params.severity)
+    if (params?.limit) queryParams.append('limit', params.limit.toString())
+    if (params?.offset) queryParams.append('offset', params.offset.toString())
+
+    const response = await apiClient.get(
+      `/admin/bug-reports${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+    )
+    return response.data
+  },
+
+  getBugReport: async (id: string) => {
+    const response = await apiClient.get(`/admin/bug-reports/${id}`)
+    return response.data
+  },
+
+  updateBugReport: async (
+    id: string,
+    data: {
+      title?: string
+      description?: string
+      status?: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED'
+      severity?: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
+      resolutionNotes?: string
+      assignedTo?: string | null
+    }
+  ) => {
+    const response = await apiClient.put(`/admin/bug-reports/${id}`, data)
+    return response.data
+  },
+
+  deleteBugReport: async (id: string) => {
+    const response = await apiClient.delete(`/admin/bug-reports/${id}`)
+    return response.data
   },
 }
 

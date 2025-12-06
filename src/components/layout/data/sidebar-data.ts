@@ -17,6 +17,7 @@ import {
   GraduationCap,
   Shield,
   Search,
+  Bug,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
@@ -96,6 +97,11 @@ export const sidebarData: SidebarData = {
           title: 'Notifications',
           url: '/notifications',
           icon: Bell,
+        },
+        {
+          title: 'Bug Reports',
+          url: '/bug-reports',
+          icon: Bug,
         },
       ],
     },
