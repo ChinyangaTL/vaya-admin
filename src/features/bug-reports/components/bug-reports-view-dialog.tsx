@@ -16,7 +16,14 @@ import {
   bugReportSeverityColors,
 } from '../data/schema'
 import { useBugReports } from './bug-reports-provider'
+import { AttachmentGalleryView } from './attachment-gallery-view'
 import { cn } from '@/lib/utils'
+
+interface BugReportAttachment {
+  path: string
+  type: 'image' | 'video'
+  name: string
+}
 
 export function BugReportsViewDialog() {
   const { open, setOpen, currentBugReport } = useBugReports()
@@ -121,6 +128,21 @@ export function BugReportsViewDialog() {
 
           <Separator />
 
+          {/* Attachments */}
+          {currentBugReport.attachments &&
+            Array.isArray(currentBugReport.attachments) &&
+            currentBugReport.attachments.length > 0 && (
+              <>
+                <div>
+                  <h4 className='font-semibold mb-3'>Attachments</h4>
+                  <AttachmentGalleryView
+                    attachments={currentBugReport.attachments as BugReportAttachment[]}
+                  />
+                </div>
+                <Separator />
+              </>
+            )}
+
           {/* Resolution Notes */}
           {currentBugReport.resolution_notes && (
             <>
@@ -171,4 +193,5 @@ export function BugReportsViewDialog() {
     </Dialog>
   )
 }
+
 
