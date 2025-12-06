@@ -1,5 +1,12 @@
 import { z } from 'zod'
 
+// Bug Report Attachment Schema
+const bugReportAttachmentSchema = z.object({
+  path: z.string(),
+  type: z.enum(['image', 'video']),
+  name: z.string(),
+})
+
 // Bug Report Schema
 const bugReportSchema = z.object({
   id: z.string(),
@@ -12,6 +19,7 @@ const bugReportSchema = z.object({
   assigned_to: z.string().nullable(),
   resolution_notes: z.string().nullable(),
   resolved_at: z.string().nullable(),
+  attachments: z.array(bugReportAttachmentSchema).nullable().optional(),
   created_at: z.string(),
   updated_at: z.string(),
   reporter: z

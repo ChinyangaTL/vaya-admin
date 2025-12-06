@@ -627,6 +627,14 @@ export const adminAPI = {
     const response = await apiClient.delete(`/admin/bug-reports/${id}`)
     return response.data
   },
+
+  getBugReportAttachmentUrl: async (filePath: string) => {
+    const encodedPath = encodeURIComponent(filePath)
+    const response = await apiClient.get(
+      `/support/bugs/attachments/${encodedPath}/url`
+    )
+    return response.data.payload.signedUrl
+  },
 }
 
 export default apiClient
