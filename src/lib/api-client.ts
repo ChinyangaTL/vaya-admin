@@ -2,8 +2,8 @@ import axios, { type AxiosInstance } from 'axios'
 import { useAuthStore } from '@/stores/auth-store'
 
 // API Configuration - Using production URL for admin dashboard
-const API_BASE_URL = 'http://localhost:3000/api'
-// const API_BASE_URL = 'https://api.vaya-luyten.com/api'
+// const API_BASE_URL = 'http://localhost:3000/api'
+const API_BASE_URL = 'https://api.vaya-luyten.com/api'
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
