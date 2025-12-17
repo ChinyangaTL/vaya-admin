@@ -33,9 +33,11 @@ import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedStudentVerificationsIndexRouteImport } from './routes/_authenticated/student-verifications/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedPendingFleetManagersIndexRouteImport } from './routes/_authenticated/pending-fleet-managers/index'
 import { Route as AuthenticatedPendingDriversIndexRouteImport } from './routes/_authenticated/pending-drivers/index'
 import { Route as AuthenticatedNotificationsIndexRouteImport } from './routes/_authenticated/notifications/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
+import { Route as AuthenticatedFleetManagersIndexRouteImport } from './routes/_authenticated/fleet-managers/index'
 import { Route as AuthenticatedDriversIndexRouteImport } from './routes/_authenticated/drivers/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedBugReportsIndexRouteImport } from './routes/_authenticated/bug-reports/index'
@@ -174,6 +176,12 @@ const AuthenticatedSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedPendingFleetManagersIndexRoute =
+  AuthenticatedPendingFleetManagersIndexRouteImport.update({
+    id: '/pending-fleet-managers/',
+    path: '/pending-fleet-managers/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPendingDriversIndexRoute =
   AuthenticatedPendingDriversIndexRouteImport.update({
     id: '/pending-drivers/',
@@ -190,6 +198,12 @@ const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
     path: '/help-center/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFleetManagersIndexRoute =
+  AuthenticatedFleetManagersIndexRouteImport.update({
+    id: '/fleet-managers/',
+    path: '/fleet-managers/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDriversIndexRoute =
@@ -297,9 +311,11 @@ export interface FileRoutesByFullPath {
   '/bug-reports': typeof AuthenticatedBugReportsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
+  '/fleet-managers': typeof AuthenticatedFleetManagersIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/pending-drivers': typeof AuthenticatedPendingDriversIndexRoute
+  '/pending-fleet-managers': typeof AuthenticatedPendingFleetManagersIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
@@ -334,9 +350,11 @@ export interface FileRoutesByTo {
   '/bug-reports': typeof AuthenticatedBugReportsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
+  '/fleet-managers': typeof AuthenticatedFleetManagersIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/pending-drivers': typeof AuthenticatedPendingDriversIndexRoute
+  '/pending-fleet-managers': typeof AuthenticatedPendingFleetManagersIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/student-verifications': typeof AuthenticatedStudentVerificationsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
@@ -377,9 +395,11 @@ export interface FileRoutesById {
   '/_authenticated/bug-reports/': typeof AuthenticatedBugReportsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/drivers/': typeof AuthenticatedDriversIndexRoute
+  '/_authenticated/fleet-managers/': typeof AuthenticatedFleetManagersIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/notifications/': typeof AuthenticatedNotificationsIndexRoute
   '/_authenticated/pending-drivers/': typeof AuthenticatedPendingDriversIndexRoute
+  '/_authenticated/pending-fleet-managers/': typeof AuthenticatedPendingFleetManagersIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/student-verifications/': typeof AuthenticatedStudentVerificationsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
@@ -419,9 +439,11 @@ export interface FileRouteTypes {
     | '/bug-reports'
     | '/chats'
     | '/drivers'
+    | '/fleet-managers'
     | '/help-center'
     | '/notifications'
     | '/pending-drivers'
+    | '/pending-fleet-managers'
     | '/settings/'
     | '/student-verifications/'
     | '/tasks'
@@ -456,9 +478,11 @@ export interface FileRouteTypes {
     | '/bug-reports'
     | '/chats'
     | '/drivers'
+    | '/fleet-managers'
     | '/help-center'
     | '/notifications'
     | '/pending-drivers'
+    | '/pending-fleet-managers'
     | '/settings'
     | '/student-verifications'
     | '/tasks'
@@ -498,9 +522,11 @@ export interface FileRouteTypes {
     | '/_authenticated/bug-reports/'
     | '/_authenticated/chats/'
     | '/_authenticated/drivers/'
+    | '/_authenticated/fleet-managers/'
     | '/_authenticated/help-center/'
     | '/_authenticated/notifications/'
     | '/_authenticated/pending-drivers/'
+    | '/_authenticated/pending-fleet-managers/'
     | '/_authenticated/settings/'
     | '/_authenticated/student-verifications/'
     | '/_authenticated/tasks/'
@@ -694,6 +720,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/pending-fleet-managers/': {
+      id: '/_authenticated/pending-fleet-managers/'
+      path: '/pending-fleet-managers'
+      fullPath: '/pending-fleet-managers'
+      preLoaderRoute: typeof AuthenticatedPendingFleetManagersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pending-drivers/': {
       id: '/_authenticated/pending-drivers/'
       path: '/pending-drivers'
@@ -713,6 +746,13 @@ declare module '@tanstack/react-router' {
       path: '/help-center'
       fullPath: '/help-center'
       preLoaderRoute: typeof AuthenticatedHelpCenterIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/fleet-managers/': {
+      id: '/_authenticated/fleet-managers/'
+      path: '/fleet-managers'
+      fullPath: '/fleet-managers'
+      preLoaderRoute: typeof AuthenticatedFleetManagersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/drivers/': {
@@ -858,9 +898,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBugReportsIndexRoute: typeof AuthenticatedBugReportsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedDriversIndexRoute: typeof AuthenticatedDriversIndexRoute
+  AuthenticatedFleetManagersIndexRoute: typeof AuthenticatedFleetManagersIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedNotificationsIndexRoute: typeof AuthenticatedNotificationsIndexRoute
   AuthenticatedPendingDriversIndexRoute: typeof AuthenticatedPendingDriversIndexRoute
+  AuthenticatedPendingFleetManagersIndexRoute: typeof AuthenticatedPendingFleetManagersIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedWalletTrackingIndexRoute: typeof AuthenticatedWalletTrackingIndexRoute
@@ -879,9 +921,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBugReportsIndexRoute: AuthenticatedBugReportsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedDriversIndexRoute: AuthenticatedDriversIndexRoute,
+  AuthenticatedFleetManagersIndexRoute: AuthenticatedFleetManagersIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedNotificationsIndexRoute: AuthenticatedNotificationsIndexRoute,
   AuthenticatedPendingDriversIndexRoute: AuthenticatedPendingDriversIndexRoute,
+  AuthenticatedPendingFleetManagersIndexRoute:
+    AuthenticatedPendingFleetManagersIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
   AuthenticatedWalletTrackingIndexRoute: AuthenticatedWalletTrackingIndexRoute,

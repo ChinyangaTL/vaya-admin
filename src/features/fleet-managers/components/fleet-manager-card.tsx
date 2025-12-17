@@ -115,10 +115,18 @@ export function FleetManagerCard({ profile, showActions = false }: Props) {
 
       {showActions && profile.approval_status === 'PENDING' && (
         <div className='flex gap-2'>
-          <Button variant='default' onClick={handleApprove} disabled={approveMutation.isLoading}>
+          <Button
+            variant='default'
+            onClick={handleApprove}
+            disabled={approveMutation.status === 'pending'}
+          >
             Approve
           </Button>
-          <Button variant='destructive' onClick={handleReject} disabled={rejectMutation.isLoading}>
+          <Button
+            variant='destructive'
+            onClick={handleReject}
+            disabled={rejectMutation.status === 'pending'}
+          >
             Reject
           </Button>
         </div>

@@ -1,11 +1,11 @@
-import { ApprovalStatus } from '@/types/common'
-
 export interface FleetManagerDocument {
   id: string
   document_type: string
   file_path: string
   uploaded_at: string
 }
+
+export type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
 
 export interface FleetManagerProfile {
   id: string
