@@ -64,6 +64,11 @@ export const sidebarData: SidebarData = {
           icon: UserX,
         },
         {
+          title: 'Pending Fleet Managers',
+          url: '/pending-fleet-managers',
+          icon: UserX,
+        },
+        {
           title: 'Student Verifications',
           url: '/student-verifications',
           icon: GraduationCap,
@@ -77,6 +82,11 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: UserCog,
+        },
+        {
+          title: 'Fleet Managers',
+          url: '/fleet-managers',
+          icon: Users,
         },
         {
           title: 'Wallet',

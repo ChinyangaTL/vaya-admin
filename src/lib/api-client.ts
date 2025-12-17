@@ -246,9 +246,43 @@ export const adminAPI = {
     return response.data.payload
   },
 
+  // Fleet Manager Management
+  getPendingFleetManagers: async () => {
+    const response = await apiClient.get('/admin/fleet-managers/pending')
+    return response.data.payload
+  },
+
+  getAllFleetManagers: async () => {
+    const response = await apiClient.get('/admin/fleet-managers')
+    return response.data.payload
+  },
+
+  approveFleetManager: async (fleetManagerProfileId: string, adminNotes?: string) => {
+    const response = await apiClient.put(
+      `/admin/fleet-managers/${fleetManagerProfileId}/approve`,
+      { adminNotes }
+    )
+    return response.data.payload
+  },
+
+  rejectFleetManager: async (fleetManagerProfileId: string, adminNotes: string) => {
+    const response = await apiClient.put(
+      `/admin/fleet-managers/${fleetManagerProfileId}/reject`,
+      { adminNotes }
+    )
+    return response.data.payload
+  },
+
   // Document Management
   getDocumentUrl: async (documentId: string) => {
     const response = await apiClient.get(`/drivers/documents/${documentId}/url`)
+    return response.data.payload.signedUrl
+  },
+
+  getFleetManagerDocumentUrl: async (documentId: string) => {
+    const response = await apiClient.get(
+      `/fleet-managers/documents/${documentId}/url`
+    )
     return response.data.payload.signedUrl
   },
 
